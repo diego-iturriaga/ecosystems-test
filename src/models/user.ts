@@ -15,7 +15,7 @@ class User extends Model {
   private _lastLogin: Date;
   @HasOne(() => Client)
   private _client: Client;
-  
+
   /* MODIFIERS */
   public get name(): string {
     return this._name;

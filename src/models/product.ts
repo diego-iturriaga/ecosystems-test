@@ -7,10 +7,8 @@ class Product extends Model {
   @Column(DataType.TEXT)
   private _name: string;
   @Column(DataType.TEXT)
-  private _address1: string;
-  @Column(DataType.TEXT)
-  private _address2: string;
-  
+  private _price: number;
+
   /* MODIFIERS */
   public get name(): string {
     return this._name;
@@ -18,17 +16,11 @@ class Product extends Model {
   public set name(value: string) {
     this._name = value;
   }
-  public get address1(): string {
-    return this._address1;
+  public get price(): number {
+    return this._price;
   }
-  public set address1(value: string) {
-    this._address1 = value;
-  }
-  public get address2(): string {
-    return this._address2;
-  }
-  public set address2(value: string) {
-    this._address2 = value;
+  public set price(value: number) {
+    this._price = value;
   }
 }
 

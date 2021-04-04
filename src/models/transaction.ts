@@ -1,6 +1,6 @@
-import { Table, Column, Model, HasMany, HasOne, DataType, CreatedAt, Sequelize } from 'sequelize-typescript'
+import { Column, DataType, ForeignKey, HasOne, Model, Table } from 'sequelize-typescript';
+import Account from './account';
 import TransactionDetail from './transaction-detail';
-
 
 @Table({'timestamps': true})
 class Transaction extends Model {
@@ -11,6 +11,10 @@ class Transaction extends Model {
   private _detail: Transaction;
   @Column(DataType.TEXT)
   private _currency: string;
+
+  @ForeignKey(() => Account)
+  @Column(DataType.NUMBER)
+  private _accountId: number;
 
   /* MODIFIERS */
   public get amount(): number {
@@ -30,6 +34,12 @@ class Transaction extends Model {
   }
   public set currency(value: string) {
     this._currency = value;
+  }
+  public get accountId(): number {
+    return this._accountId;
+  }
+  public set accountId(value: number) {
+    this._accountId = value;
   }
 }
 

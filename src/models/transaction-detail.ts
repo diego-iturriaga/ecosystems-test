@@ -1,5 +1,5 @@
-import { Table, Column, Model, HasMany, HasOne, DataType, CreatedAt, Sequelize } from 'sequelize-typescript'
-
+import { Table, Column, Model, HasMany, HasOne, DataType, CreatedAt, Sequelize, ForeignKey } from 'sequelize-typescript'
+import Transaction from './transaction';
 
 @Table({'timestamps': true})
 class TransactionDetail extends Model {
@@ -12,7 +12,10 @@ class TransactionDetail extends Model {
   private _password: string
   @Column(DataType.DATE)
   private _lastLogin: Date
-  
+  @ForeignKey(() => Transaction)
+  @Column(DataType.NUMBER)
+  private _transactionId: number;
+
   /* ATTRIBUTES */
   public get name(): string {
     return this._name
@@ -37,6 +40,12 @@ class TransactionDetail extends Model {
   }
   public set lastLogin(value: Date) {
     this._lastLogin = value
+  }
+  public get transactionId(): number {
+    return this._transactionId;
+  }
+  public set transactionId(value: number) {
+    this._transactionId = value;
   }
 }
 

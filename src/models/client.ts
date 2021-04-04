@@ -1,7 +1,7 @@
-import { Table, Column, Model, HasMany, HasOne, DataType, ForeignKey } from 'sequelize-typescript'
-import User from './user';
-import Product from './product';
+import { Column, DataType, ForeignKey, HasMany, Model, Table } from 'sequelize-typescript';
 import Account from './account';
+import Product from './product';
+import User from './user';
 
 @Table({'timestamps': true})
 class Client extends Model {
@@ -17,9 +17,10 @@ class Client extends Model {
   private _userId: number;
   @HasMany(() => Account)
   private _accounts: Account[];
-  @HasMany(() => Product)
-  private _products: Product[];
-  
+
+  // @HasMany(() => Product)
+  // private _products: Product[];
+
   /* MODIFIERS */
   public get name(): string {
     return this._name;
@@ -51,20 +52,12 @@ class Client extends Model {
   public set accounts(value: Account[]) {
     this._accounts = value;
   }
-  public get products(): Product[] {
-    return this._products;
-  }
-  public set products(value: Product[]) {
-    this._products = value;
-  }
-
-  /* OTHER FUNCTIONS */
-  addProduct(pr: Product): boolean{
-    return false;
-  }
-  getMyAccounts(): Account[]{
-    return new Array;
-  }
+  // public get products(): Product[] {
+  //  return this._products;
+  // }
+  // public set products(value: Product[]) {
+  //  this._products = value;
+  // }
 }
 
 export default Client;

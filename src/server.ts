@@ -23,8 +23,10 @@ const sequelize = new Sequelize({
 sequelize
         .sync()
         .then(() =>
+            // poblateDB()
             // tslint:disable-next-line:no-console
-            console.log("Connected to db."))
+            console.log('database created!')
+            )
         .catch(() => {
             throw new Error("Error initializing database.");
         });
