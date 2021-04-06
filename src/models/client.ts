@@ -1,63 +1,64 @@
-import { Column, DataType, ForeignKey, HasMany, Model, Table } from 'sequelize-typescript';
+import { BelongsToMany, Column, DataType, ForeignKey, HasMany, Model, PrimaryKey, Table } from 'sequelize-typescript';
 import Account from './account';
 import Product from './product';
 import User from './user';
+import ClientProduct from "./client-product";
 
 @Table({'timestamps': true})
 class Client extends Model {
   /* ATTRIBUTES */
   @Column(DataType.TEXT)
-  private _name: string;
+  private name: string;
   @Column(DataType.TEXT)
-  private _address1: string;
+  private address1: string;
   @Column(DataType.TEXT)
-  private _address2: string;
+  private address2: string;
   @ForeignKey(() => User)
   @Column(DataType.NUMBER)
-  private _userId: number;
+  private userId: number;
   @HasMany(() => Account)
-  private _accounts: Account[];
+  private accounts: Account[];
 
-  // @HasMany(() => Product)
-  // private _products: Product[];
+  @BelongsToMany(() => Product, () => ClientProduct)
+  private products: Product[];
 
   /* MODIFIERS */
-  public get name(): string {
-    return this._name;
+  public getName(): string {
+    return this.name;
   }
-  public set name(value: string) {
-    this._name = value;
+  public setName(value: string) {
+    this.name = value;
   }
-  public get address1(): string {
-    return this._address1;
+  public getAddress1(): string {
+    return this.address1;
   }
-  public set address1(value: string) {
-    this._address1 = value;
+  public setAddress1(value: string) {
+    this.address1 = value;
   }
-  public get address2(): string {
-    return this._address2;
+  public getAddress2(): string {
+    return this.address2;
   }
-  public set address2(value: string) {
-    this._address2 = value;
+  public setAddress2(value: string) {
+    this.address2 = value;
   }
-  public get userId(): number {
-    return this._userId;
+  public getUserId(): number {
+    return this.userId;
   }
-  public set userId(value: number) {
-    this._userId = value;
+  public setUserId(value: number) {
+    this.userId = value;
   }
-  public get accounts(): Account[] {
-    return this._accounts;
+  public getAccounts(): Account[] {
+    return this.accounts;
   }
-  public set accounts(value: Account[]) {
-    this._accounts = value;
+  public setAccounts(value: Account[]) {
+    this.accounts = value;
   }
-  // public get products(): Product[] {
-  //  return this._products;
-  // }
-  // public set products(value: Product[]) {
-  //  this._products = value;
-  // }
+  public getProducts(): Product[] {
+    return this.products;
+  }
+  public setProducts(value: Product[]) {
+    this.products = value;
+  }
 }
 
 export default Client;

@@ -1,51 +1,64 @@
-import { Table, Column, Model, HasMany, HasOne, DataType, CreatedAt, Sequelize } from 'sequelize-typescript'
+import { Table, Column, Model, HasMany, HasOne, DataType, CreatedAt, Sequelize, NotNull, AllowNull, BeforeCreate, BeforeUpdate } from 'sequelize-typescript'
 import Client from "./client";
-
+import ICrypto from "../interfaces/inteface-crypto";
+import Crypto from "../utils/crypto";
 
 @Table({'timestamps': true})
 class User extends Model {
   /* ATTRIBUTES */
   @Column(DataType.TEXT)
-  private _name: string;
+  private name: string;
   @Column(DataType.TEXT)
-  private _username: string;
+  private username: string;
+  @AllowNull(false)
   @Column(DataType.TEXT)
-  private _password: string;
+  private password: string;
   @Column(DataType.DATE)
-  private _lastLogin: Date;
+  private lastLogin: Date;
   @HasOne(() => Client)
-  private _client: Client;
+  private client: Client;
 
   /* MODIFIERS */
-  public get name(): string {
-    return this._name;
+  public getName(): string {
+    return this.name;
   }
-  public set name(value: string) {
-    this._name = value;
+  public setName(value: string) {
+    this.name = value;
   }
-  public get username(): string {
-    return this._username;
+  public getUsername(): string {
+    return this.username;
   }
-  public set username(value: string) {
-    this._username = value;
+  public setUsername(value: string) {
+    this.username = value;
   }
-  public get password(): string {
-    return this._password;
+  public getPassword(): string {
+    return this.password;
   }
-  public set password(value: string) {
-    this._password = value;
+  public setPassword(value: string) {
+    this.password = value;
   }
-  public get lastLogin(): Date {
-    return this._lastLogin;
+  public getLastLogin(): Date {
+    return this.lastLogin;
   }
-  public set lastLogin(value: Date) {
-    this._lastLogin = value;
+  public setLastLogin(value: Date) {
+    this.lastLogin = value;
   }
-  public get client(): Client {
-    return this._client;
+  public getClient(): Client {
+    return this.client;
   }
-  public set client(value: Client) {
-    this._client = value;
+  public setClient(value: Client) {
+    this.client = value;
+  }
+  validatePassword(password: string): boolean{
+    const cr: ICrypto = new Crypto();
+    return cr.validPassword(password, this.getPassword());
+  }
+
+  @BeforeUpdate
+  @BeforeCreate
+  static createHashPassword(instance: User){
+    const cr: ICrypto = new Crypto();
+    instance.setPassword(cr.hash(instance.getPassword()));
   }
 }
 

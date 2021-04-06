@@ -6,40 +6,40 @@ import TransactionDetail from './transaction-detail';
 class Transaction extends Model {
   /* ATTRIBUTES */
   @Column(DataType.TEXT)
-  private _amount: number;
+  private amount: number;
   @HasOne(() => TransactionDetail)
-  private _detail: Transaction;
+  private detail: Transaction;
   @Column(DataType.TEXT)
-  private _currency: string;
+  private currency: string;
 
   @ForeignKey(() => Account)
   @Column(DataType.NUMBER)
-  private _accountId: number;
+  private accountId: number;
 
   /* MODIFIERS */
-  public get amount(): number {
-    return this._amount;
+  public getAmount(): number {
+    return this.amount;
   }
-  public set amount(value: number) {
-    this._amount = value;
+  public setAmount(value: number) {
+    this.amount = value;
   }
-  public get detail(): Transaction {
-    return this._detail;
+  public getDetail(): Transaction {
+    return this.detail;
   }
-  public set detail(value: Transaction) {
-    this._detail = value;
+  public setDetail(value: Transaction) {
+    this.detail = value;
   }
-  public get currency(): string {
-    return this._currency;
+  public getCurrency(): string {
+    return this.currency;
   }
-  public set currency(value: string) {
-    this._currency = value;
+  public setCurrency(value: string) {
+    this.currency = value;
   }
-  public get accountId(): number {
-    return this._accountId;
+  public getAccountId(): number {
+    return this.accountId;
   }
-  public set accountId(value: number) {
-    this._accountId = value;
+  public setAccountId(value: number) {
+    this.accountId = value;
   }
 }
 

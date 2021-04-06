@@ -1,26 +1,37 @@
-import { Table, Column, Model, HasMany, HasOne, DataType, ForeignKey } from 'sequelize-typescript'
+import { Table, Column, Model, HasMany, HasOne, DataType, ForeignKey, BelongsToMany } from 'sequelize-typescript'
 import User from './user';
+import Client from "./client";
+import ClientProduct from "./client-product";
 
 @Table({'timestamps': true})
 class Product extends Model {
   /* ATTRIBUTES */
   @Column(DataType.TEXT)
-  private _name: string;
+  private name: string;
   @Column(DataType.TEXT)
-  private _price: number;
+  private price: number;
+
+  @BelongsToMany(() => Client, () => ClientProduct)
+  private clients: Client[];
 
   /* MODIFIERS */
-  public get name(): string {
-    return this._name;
+  public getName(): string {
+    return this.name;
   }
-  public set name(value: string) {
-    this._name = value;
+  public setName(value: string) {
+    this.name = value;
   }
-  public get price(): number {
-    return this._price;
+  public getPrice(): number {
+    return this.price;
   }
-  public set price(value: number) {
-    this._price = value;
+  public setPrice(value: number) {
+    this.price = value;
+  }
+  public getClients(): Client[]{
+    return this.clients;
+  }
+  public setClients(value: Client[]){
+    this.clients = value;
   }
 }
 

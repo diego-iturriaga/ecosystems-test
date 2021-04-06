@@ -7,39 +7,39 @@ import Client from './client';
 class Account extends Model {
   /* ATTRIBUTES */
   @Column(DataType.TEXT)
-  private _name: string;
+  private name: string;
   @Column(DataType.TEXT)
-  private _type: string;
+  private type: string;
   @ForeignKey(() => Client)
   @Column(DataType.NUMBER)
-  private _clientId: number;
+  private clientId: number;
   @HasMany(() => Transaction)
-  private _transactions: Transaction[];
+  private transactions: Transaction[];
 
   /* MODIFIERS */
-  public get name(): string {
-    return this._name;
+  public getName(): string {
+    return this.name;
   }
-  public set name(value: string) {
-    this._name = value;
+  public setName(value: string) {
+    this.name = value;
   }
-  public get type(): string {
-    return this._type;
+  public getType(): string {
+    return this.type;
   }
-  public set type(value: string) {
-    this._type = value;
+  public setType(value: string) {
+    this.type = value;
   }
-  public get clientId(): number {
-    return this._clientId;
+  public getClientId(): number {
+    return this.clientId;
   }
-  public set clientId(value: number) {
-    this._clientId = value;
+  public setClientId(value: number) {
+    this.clientId = value;
   }
-  public get transactions(): Transaction[] {
-    return this._transactions;
+  public getTransactions(): Transaction[] {
+    return this.transactions;
   }
-  public set transactions(value: Transaction[]) {
-    this._transactions = value;
+  public setTransactions(value: Transaction[]) {
+    this.transactions = value;
   }
 }
 

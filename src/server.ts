@@ -1,5 +1,8 @@
 import express, { Router } from "express";
-import { Sequelize } from 'sequelize-typescript'
+import { Sequelize } from 'sequelize-typescript';
+import compression from "compression";
+import cors from "cors";
+import passport from "passport";
 
 import User from "./models/user";
 import Client from "./models/client";
@@ -8,56 +11,63 @@ import TransactionDetail from "./models/transaction-detail";
 
 import userRouter from "./routes/user-router"
 import loginRouter from "./routes/login-router"
+import config from "./config/config";
 
-// Sequelize database configuration.
-const sequelize = new Sequelize({
-  database: 'ecosystem-test',
-  dialect: 'sqlite',
-  username: 'root',
-  password: 'toor',
-  storage: './db.sqlite3',
-  models: [__dirname + '/models'] // or [Player, Team],
-})
+import passportMiddleware from "./middlewares/passport";
 
-// Sequelize initialization and sync database.
-sequelize
-        .sync()
-        .then(() =>
-            // poblateDB()
+class Server{
+    // Express initialization.
+    public app;
+
+    constructor(){
+        // Sequelize database configuration.
+        const sequelize = new Sequelize({
+        database: config.dbName,
+        dialect: 'sqlite',
+        username: config.dbUsername,
+        password: config.dbPassword,
+        storage: config.dbPath,
+        models: [__dirname + '/models'] // or [Player, Team],
+        })
+        // Sequelize initialization and sync database.
+        sequelize
+                .sync()
+                .then(() =>
+                    // tslint:disable-next-line:no-console
+                    console.log('database created!')
+                )
+                .catch(() => {
+                    throw new Error("Error initializing database.");
+                });
+
+        // Express initialization.
+        this.app = express();
+
+        // middlewares
+        this.app.use(express.json());
+        this.app.use(express.urlencoded({extended: false}));
+        this.app.use(compression());
+        this.app.use(cors());
+        this.app.use(passport.initialize());
+        passport.use(passportMiddleware);
+    }
+
+    start(): void{
+        // Route creations.
+        const router: Router = express.Router()
+        router.use("/login", loginRouter);
+        router.use("/user", passport.authenticate('jwt', {session: false}), userRouter);
+
+        // first level routing
+        this.app.use(`/${config.apiPrefix}/${config.apiVersion}`, router);
+
+        // Run server!
+        this.app.listen(config.port, () => {
             // tslint:disable-next-line:no-console
-            console.log('database created!')
-            )
-        .catch(() => {
-            throw new Error("Error initializing database.");
-        });
+            console.log( `server started at http://localhost:${ config.port }` );
+        } );
+    }
+}
 
-// Get SERVER_PORT from NodeJS process runtime or set default 8000.
-const port = process.env.SERVER_PORT || 8000;
-const app = express();
-
-// Route creations.
-const router: Router = express.Router()
-
-// Home is /.
-router.get( "/", ( req, res, next ) => {
-    res.send("Welcome! Bienvenido! Wilkommen! This is our API.") ;
-});
-router.use("/user", loginRouter);
-router.use("/user", userRouter);
-router.use("/client", userRouter);
-router.use("/users", userRouter);
-
-// Route prefix and version (updated 04-2021).
-const apiPrefix: string = "api";
-const apiVersion: string = "v1";
-app.use(`/${apiPrefix}/${apiVersion}`, router);
-
-app.get( "/", ( req, res ) => {
-    res.send("This is our home page!") ;
-});
-
-// Run server!
-app.listen( port, () => {
-    // tslint:disable-next-line:no-console
-    console.log( `server started at http://localhost:${ port }` );
-} );
+const s = new Server();
+s.start();

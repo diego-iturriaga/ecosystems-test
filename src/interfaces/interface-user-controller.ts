@@ -1,19 +1,18 @@
-import Client from "../models/client";
 import Account from "../models/account";
 import Transaction from "../models/transaction";
 import TransactionDetail from "../models/transaction-detail";
 
 interface IUserController{
     // point 2
-    getUserAccounts(clientId: number): Account[];
+    getUserAccounts(userId: number): Promise<void | Account[] | null>;
     // point 3
-    getUserAccountTransactions(clientId: number, accountId: number): Transaction[];
+    getUserAccountTransactions(userId: number, accountId: number): Promise<void | Transaction[] | null>;
     // point 4
-    getUserAccountTransactionDetail(clientId: number, accountId: number, transactionId: number): TransactionDetail;
+    getUserAccountTransactionDetail(userId: number, accountId: number, transactionId: number): Promise<void | TransactionDetail | null>;
     // point 5
-    getUserAccountSumAverageTransactions(clientId: number, accountId: number, startDate: Date, endDate: Date): number;
+    getUserAccountSumAverageTransactions(userId: number, accountId: number, startDate: string, endDate: string): Promise<void | number | null>;
     // point 6
-    addNewProductToUser(clientId: number, productId: number): [boolean, any]; // [true and ""] OR [false and "error message"]
+    addNewProductToUser(userId: number, productId: number): Promise<void | boolean | null>;
 }
 
 export default IUserController;

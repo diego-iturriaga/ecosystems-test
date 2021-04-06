@@ -5,47 +5,47 @@ import Transaction from './transaction';
 class TransactionDetail extends Model {
   /* ATTRIBUTES */
   @Column(DataType.TEXT)
-  private _name: string
+  private name: string
   @Column(DataType.TEXT)
-  private _username: string
+  private username: string
   @Column(DataType.TEXT)
-  private _password: string
+  private password: string
   @Column(DataType.DATE)
-  private _lastLogin: Date
+  private lastLogin: Date
   @ForeignKey(() => Transaction)
   @Column(DataType.NUMBER)
-  private _transactionId: number;
+  private transactionId: number;
 
   /* ATTRIBUTES */
-  public get name(): string {
-    return this._name
+  public getName(): string {
+    return this.name
   }
-  public set name(value: string) {
-    this._name = value
+  public setName(value: string) {
+    this.name = value
   }
-  public get username(): string {
-    return this._username
+  public getUsername(): string {
+    return this.username
   }
-  public set username(value: string) {
-    this._username = value
+  public setUsername(value: string) {
+    this.username = value
   }
-  public get password(): string {
-    return this._password
+  public getPassword(): string {
+    return this.password
   }
-  public set password(value: string) {
-    this._password = value
+  public setPassword(value: string) {
+    this.password = value
   }
-  public get lastLogin(): Date {
-    return this._lastLogin
+  public getLastLogin(): Date {
+    return this.lastLogin
   }
-  public set lastLogin(value: Date) {
-    this._lastLogin = value
+  public setLastLogin(value: Date) {
+    this.lastLogin = value
   }
-  public get transactionId(): number {
-    return this._transactionId;
+  public getTransactionId(): number {
+    return this.transactionId;
   }
-  public set transactionId(value: number) {
-    this._transactionId = value;
+  public setTransactionId(value: number) {
+    this.transactionId = value;
   }
 }
 
