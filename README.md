@@ -3,13 +3,13 @@ Typescript REST API
 
 run server:
 ```sh
-node run start
+npm run start
 ```
 
 
 compile server:
 ```sh
-node run build
+npm run build
 ```
 
 Users:
