@@ -1,11 +1,7 @@
 import express from "express";
-import Router from "express";
-import User from "../models/user";
-import Account from "../models/account";
-import IUserController from "../interfaces/interface-user-controller";
 import UserController from "../controllers/user-controller";
-import UserLoginController from "../controllers/user-login-controller";
-import IUserLoginController from "../interfaces/interface-userlogin-controller";
+import IUserController from "../interfaces/interface-user-controller";
+import User from "../models/user";
 
 const router = express.Router();
 
@@ -27,7 +23,11 @@ router.get( "/:userId/account", ( req, res ) => {
     const userId = Number(req.params.userId);
     userController.getUserAccounts(userId)
     .then(accs=>{
+        if (!accs)
+            res.status(400).json({msg: 'Resource not found.'});
         res.status(200).json(accs);
+    }).catch(err=>{
+        res.status(500).json('An error has occurred.');
     });
 });
 
@@ -40,7 +40,11 @@ router.get( "/:userId/account/:accountId/transaction", ( req, res ) => {
     const accountId = Number(req.params.accountId);
     userController.getUserAccountTransactions(userId, accountId)
     .then(trs=>{
+        if (!trs)
+            res.status(400).json({msg: 'Resource not found.'});
         res.status(200).json(trs);
+    }).catch(err=>{
+        res.status(500).json('An error has occurred.');
     });
 });
 
@@ -55,8 +59,12 @@ router.get( "/:userId/account/:accountId/transaction/:transactionId/detail", ( r
     const transactionId = Number(req.params.accountId);
     userController.getUserAccountTransactionDetail(userId, accountId, transactionId)
     .then(td=>{
+        if (!td)
+            res.status(400).json({msg: 'Resource not found.'});
         res.status(200).json(td);
-    })
+    }).catch(err=>{
+        res.status(500).json('An error has occurred.');
+    });
 });
 
 /*
@@ -70,8 +78,12 @@ router.get( "/:userId/account/:accountId/sum-average-transaction/:startdate/:end
     const endDate = req.params.enddate;
     userController.getUserAccountSumAverageTransactions(userId, accountId, startDate, endDate)
     .then(td=>{
+        if (!td)
+            res.status(400).json({msg: 'Resource not found.'});
         res.status(200).json(td);
-    })
+    }).catch(err=>{
+        res.status(500).json('An error has occurred.');
+    });
 });
 
 /*

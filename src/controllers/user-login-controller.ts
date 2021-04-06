@@ -1,4 +1,3 @@
-import IUserLogin from "../interfaces/interface-userlogin-controller";
 import User from "../models/user";
 
 class UserLoginController{
@@ -8,6 +7,8 @@ class UserLoginController{
                 return null;
             const isMatch: boolean = usr.validatePassword(password);
             if(isMatch){
+                usr.setLastLogin(new Date());
+                usr.save();
                 return usr;
             }else{
                 return null;

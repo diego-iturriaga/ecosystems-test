@@ -1,45 +1,21 @@
-import { Table, Column, Model, HasMany, HasOne, DataType, CreatedAt, Sequelize, ForeignKey } from 'sequelize-typescript'
+import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
 import Transaction from './transaction';
 
 @Table({'timestamps': true})
 class TransactionDetail extends Model {
   /* ATTRIBUTES */
   @Column(DataType.TEXT)
-  private name: string
-  @Column(DataType.TEXT)
-  private username: string
-  @Column(DataType.TEXT)
-  private password: string
-  @Column(DataType.DATE)
-  private lastLogin: Date
+  private description: string
   @ForeignKey(() => Transaction)
   @Column(DataType.NUMBER)
   private transactionId: number;
 
   /* ATTRIBUTES */
-  public getName(): string {
-    return this.name
+  public getDescriptions(): string {
+    return this.description
   }
-  public setName(value: string) {
-    this.name = value
-  }
-  public getUsername(): string {
-    return this.username
-  }
-  public setUsername(value: string) {
-    this.username = value
-  }
-  public getPassword(): string {
-    return this.password
-  }
-  public setPassword(value: string) {
-    this.password = value
-  }
-  public getLastLogin(): Date {
-    return this.lastLogin
-  }
-  public setLastLogin(value: Date) {
-    this.lastLogin = value
+  public setDescription(value: string) {
+    this.description = value
   }
   public getTransactionId(): number {
     return this.transactionId;

@@ -1,13 +1,11 @@
-import { Table, Column, Model, HasMany, HasOne, DataType, CreatedAt, Sequelize, NotNull, AllowNull, BeforeCreate, BeforeUpdate } from 'sequelize-typescript'
-import Client from "./client";
+import { AllowNull, BeforeCreate, BeforeUpdate, BelongsTo, Column, DataType, ForeignKey, HasOne, Model, Table } from 'sequelize-typescript';
 import ICrypto from "../interfaces/inteface-crypto";
 import Crypto from "../utils/crypto";
+import Client from "./client";
 
 @Table({'timestamps': true})
 class User extends Model {
   /* ATTRIBUTES */
-  @Column(DataType.TEXT)
-  private name: string;
   @Column(DataType.TEXT)
   private username: string;
   @AllowNull(false)
@@ -15,16 +13,15 @@ class User extends Model {
   private password: string;
   @Column(DataType.DATE)
   private lastLogin: Date;
-  @HasOne(() => Client)
+
+  @ForeignKey(() => Client)
+  @Column(DataType.NUMBER)
+  private clientId: number;
+
+  @BelongsTo(() => Client, {foreignKey: 'clientId', targetKey: 'id'})
   private client: Client;
 
   /* MODIFIERS */
-  public getName(): string {
-    return this.name;
-  }
-  public setName(value: string) {
-    this.name = value;
-  }
   public getUsername(): string {
     return this.username;
   }
@@ -48,6 +45,12 @@ class User extends Model {
   }
   public setClient(value: Client) {
     this.client = value;
+  }
+  public getClientId(): number {
+    return this.clientId;
+  }
+  public setClientId(value: number) {
+    this.clientId = value;
   }
   validatePassword(password: string): boolean{
     const cr: ICrypto = new Crypto();

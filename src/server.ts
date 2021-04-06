@@ -1,19 +1,12 @@
-import express, { Router } from "express";
-import { Sequelize } from 'sequelize-typescript';
 import compression from "compression";
 import cors from "cors";
+import express, { Router } from "express";
 import passport from "passport";
-
-import User from "./models/user";
-import Client from "./models/client";
-import Transaction from "./models/transaction";
-import TransactionDetail from "./models/transaction-detail";
-
-import userRouter from "./routes/user-router"
-import loginRouter from "./routes/login-router"
+import { Sequelize } from 'sequelize-typescript';
 import config from "./config/config";
-
 import passportMiddleware from "./middlewares/passport";
+import loginRouter from "./routes/login-router";
+import userRouter from "./routes/user-router";
 
 class Server{
     // Express initialization.
@@ -30,16 +23,16 @@ class Server{
         models: [__dirname + '/models'] // or [Player, Team],
         })
         // Sequelize initialization and sync database.
-        sequelize
-                .sync()
-                .then(() =>
+        /*sequelize
+                .sync({force: true})
+                .then(() => {
                     // tslint:disable-next-line:no-console
-                    console.log('database created!')
-                )
+                    console.log('database created!');
+                })
                 .catch(() => {
                     throw new Error("Error initializing database.");
                 });
-
+        */
         // Express initialization.
         this.app = express();
 

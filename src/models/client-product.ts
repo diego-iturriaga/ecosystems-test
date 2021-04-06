@@ -1,15 +1,15 @@
-import { BelongsToMany, Column, DataType, ForeignKey, HasMany, Model, PrimaryKey, Table } from 'sequelize-typescript';
+import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
 import Client from "./client";
 import Product from "./product";
 
 @Table
 class ClientProduct extends Model {
   @ForeignKey(() => Client)
-  @Column
+  @Column(DataType.NUMBER)
   clientId: number
 
   @ForeignKey(() => Product)
-  @Column
+  @Column(DataType.NUMBER)
   productId: number
 }
 

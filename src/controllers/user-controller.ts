@@ -1,34 +1,37 @@
-import Account from '../models/account';
+import { Op } from 'sequelize';
 import IUserController from '../interfaces/interface-user-controller';
+import Account from '../models/account';
+import Product from '../models/product';
 import Transaction from '../models/transaction';
 import TransactionDetail from '../models/transaction-detail';
-import Client from '../models/client';
 import User from '../models/user';
-import { Sequelize, Model, DataTypes, Op } from 'sequelize';
-import Product from '../models/product';
+import Client from "../models/client";
 
 
 class UserController implements IUserController{
     getUserAccounts(userId: number): Promise<void | Account[] | null> {
-        return User.findByPk(userId).then(usr => {
-            if(usr && usr.getClient())
-                return usr.getClient().getAccounts();
-            return null;
+        // Faltan controles de acceso sobre la información
+        return User.findOne({where: {id: userId}, include: [Client]}).then(usr => {
+            return Account.findAll({where: {clientId: usr?.getClientId()}}).then(accs=>{
+                return accs;
+            });
         });
     }
 
     getUserAccountTransactions(userId: number, accountId: number): Promise<void | Transaction[] | null> {
-        return Account.findByPk(accountId).then(acc => {
-            return acc?.getTransactions();
+        // Faltan controles de acceso sobre la información
+        return Transaction.findAll({where: {accountId}}).then(trlist => {
+            return trlist;
         });
     }
     getUserAccountTransactionDetail(userId: number, accountId: number, transactionId: number): Promise<void | TransactionDetail | null> {
+        // Faltan controles de acceso sobre la información
         return TransactionDetail.findOne({where: {transactionId}}).then(trd => {
             return trd;
         });
     }
     getUserAccountSumAverageTransactions(userId: number, accountId: number, startDate: string, endDate: string): Promise<number | void | null> {
-        // '2020-02-02'
+        // Faltan controles de acceso sobre la información
         return Transaction.findAll(
             {where:
                 {accountId,
@@ -45,6 +48,7 @@ class UserController implements IUserController{
             });
     }
     addNewProductToUser(userId: number, productId: number): Promise<boolean | void | null> {
+        // Faltan controles de acceso sobre la información
         return User.findByPk(userId).then(usr=>{
             Product.findByPk(productId).then(pr=>{
                 usr?.getClient().getProducts().push(pr!);

@@ -1,7 +1,6 @@
-import { Table, Column, Model, HasMany, HasOne, DataType, ForeignKey, PrimaryKey } from 'sequelize-typescript'
-import Transaction from './transaction';
-import User from './user';
+import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from 'sequelize-typescript';
 import Client from './client';
+import Transaction from './transaction';
 
 @Table({'timestamps': true})
 class Account extends Model {
@@ -10,9 +9,14 @@ class Account extends Model {
   private name: string;
   @Column(DataType.TEXT)
   private type: string;
+
   @ForeignKey(() => Client)
   @Column(DataType.NUMBER)
   private clientId: number;
+
+  @BelongsTo(() => Client, {foreignKey: 'clientId', targetKey: 'id'})
+  private client: Client;
+
   @HasMany(() => Transaction)
   private transactions: Transaction[];
 
@@ -34,6 +38,12 @@ class Account extends Model {
   }
   public setClientId(value: number) {
     this.clientId = value;
+  }
+  public getClient(): Client {
+    return this.client;
+  }
+  public setClient(value: Client) {
+    this.client = value;
   }
   public getTransactions(): Transaction[] {
     return this.transactions;

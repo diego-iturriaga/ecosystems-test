@@ -8,7 +8,7 @@ class Transaction extends Model {
   @Column(DataType.TEXT)
   private amount: number;
   @HasOne(() => TransactionDetail)
-  private detail: Transaction;
+  private detail: TransactionDetail;
   @Column(DataType.TEXT)
   private currency: string;
 
@@ -23,10 +23,10 @@ class Transaction extends Model {
   public setAmount(value: number) {
     this.amount = value;
   }
-  public getDetail(): Transaction {
+  public getDetail(): TransactionDetail {
     return this.detail;
   }
-  public setDetail(value: Transaction) {
+  public setDetail(value: TransactionDetail) {
     this.detail = value;
   }
   public getCurrency(): string {

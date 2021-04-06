@@ -1,8 +1,8 @@
-import { BelongsToMany, Column, DataType, ForeignKey, HasMany, Model, PrimaryKey, Table } from 'sequelize-typescript';
+import { BelongsToMany, Column, DataType, ForeignKey, HasMany, Model, Table, Unique } from 'sequelize-typescript';
 import Account from './account';
+import ClientProduct from "./client-product";
 import Product from './product';
 import User from './user';
-import ClientProduct from "./client-product";
 
 @Table({'timestamps': true})
 class Client extends Model {
@@ -13,10 +13,11 @@ class Client extends Model {
   private address1: string;
   @Column(DataType.TEXT)
   private address2: string;
-  @ForeignKey(() => User)
-  @Column(DataType.NUMBER)
-  private userId: number;
-  @HasMany(() => Account)
+  // @Unique
+  @Column(DataType.TEXT)
+  private identification: string;
+
+  @HasMany(() => Account, {as: 'accounts', foreignKey: 'clientId'})
   private accounts: Account[];
 
   @BelongsToMany(() => Product, () => ClientProduct)
@@ -41,12 +42,6 @@ class Client extends Model {
   public setAddress2(value: string) {
     this.address2 = value;
   }
-  public getUserId(): number {
-    return this.userId;
-  }
-  public setUserId(value: number) {
-    this.userId = value;
-  }
   public getAccounts(): Account[] {
     return this.accounts;
   }
@@ -58,6 +53,13 @@ class Client extends Model {
   }
   public setProducts(value: Product[]) {
     this.products = value;
+  }
+
+  public getIdentification(): string {
+    return this.identification;
+  }
+  public setIdentification(value: string) {
+    this.identification = value;
   }
 }
 
