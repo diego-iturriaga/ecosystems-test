@@ -56,7 +56,7 @@ GET /api/v1/user/:id/account/:id/transaction/:id/detail/
 router.get( "/:userId/account/:accountId/transaction/:transactionId/detail", ( req, res ) => {
     const userId = Number(req.params.userId);
     const accountId = Number(req.params.accountId);
-    const transactionId = Number(req.params.accountId);
+    const transactionId = Number(req.params.transactionId);
     userController.getUserAccountTransactionDetail(userId, accountId, transactionId)
     .then(td=>{
         if (!td)

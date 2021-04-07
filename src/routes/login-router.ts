@@ -16,8 +16,9 @@ router.post( "/", ( req, res ) => {
     userLoginController.login(req.body.username, req.body.password)
     .then(usr => {
         if(!usr)
-            return res.status(400).json({msg: 'The user does not exists.'});
-        return res.status(200).json({token: createToken(usr)});
+            return res.status(400).json({msg: 'Username and password do not match.'});
+        const token = createToken(usr);
+        return res.status(200).json({token}).header({"auth-token": token});
     }).catch(err => {
         return res.status(500).json({msg: 'An error has occurred.'});
     });

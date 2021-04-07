@@ -1,7 +1,7 @@
 import compression from "compression";
 import cors from "cors";
 import express, { Router } from "express";
-import passport from "passport";
+import passport, { authorize } from "passport";
 import { Sequelize } from 'sequelize-typescript';
 import config from "./config/config";
 import passportMiddleware from "./middlewares/passport";
@@ -49,7 +49,8 @@ class Server{
         // Route creations.
         const router: Router = express.Router()
         router.use("/login", loginRouter);
-        router.use("/user", passport.authenticate('jwt', {session: false}), userRouter);
+        router.use("/user", passport.authenticate('jwt', {session: false}),
+                            userRouter);
 
         // first level routing
         this.app.use(`/${config.apiPrefix}/${config.apiVersion}`, router);

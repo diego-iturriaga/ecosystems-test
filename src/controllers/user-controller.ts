@@ -35,16 +35,19 @@ class UserController implements IUserController{
         return Transaction.findAll(
             {where:
                 {accountId,
-                createAt: {[Op.between]: [new Date(startDate).toISOString(), new Date(endDate).toISOString()]}}})
+                createdAt: {[Op.between]: [new Date(startDate).toISOString(), new Date(endDate).toISOString()]}}})
             .then(trlist=>{
                 let sum = 0;
                 let count = 0;
                 trlist.forEach((resultSetItem) => {
                     count++;
-                    sum+=resultSetItem.getAmount();
+                    sum+= Number(resultSetItem.getAmount());
                 });
                 if(count===0) return 0;
                 return sum/count;
+            }).catch(err=> {
+                // tslint:disable-next-line:no-console
+                console.log(err);
             });
     }
     addNewProductToUser(userId: number, productId: number): Promise<boolean | void | null> {
