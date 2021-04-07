@@ -13,7 +13,7 @@ class Client extends Model {
   private address1: string;
   @Column(DataType.TEXT)
   private address2: string;
-  // @Unique
+  @Unique
   @Column(DataType.TEXT)
   private identification: string;
 

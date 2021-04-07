@@ -96,7 +96,9 @@ router.patch("/:userId/product/:productId/addproduct", ( req, res ) => {
     const productId = Number(req.params.productId);
     userController.addNewProductToUser(userId, productId).then(r=>{
         if(r)
-            return res.status(200).json({result: r});
+            return res.status(200).json(r);
+    }).catch(err=>{
+        return res.status(500).json(err);
     });
 });
 

@@ -6,6 +6,7 @@ import Transaction from '../models/transaction';
 import TransactionDetail from '../models/transaction-detail';
 import User from '../models/user';
 import Client from "../models/client";
+import ClientProduct from '../models/client-product';
 
 
 class UserController implements IUserController{
@@ -48,15 +49,10 @@ class UserController implements IUserController{
         return User.findByPk(userId).then(usr=>{
             Product.findByPk(productId).then(pr=>{
                 Client.findByPk(usr?.getClientId(), {include: Product}).then(cl=>{
-                    let prlist: Product[];
-                    if(!cl?.getProducts()){
-                        prlist = [pr!];
-                        cl?.setProducts(prlist);
-                    }else{
-                        cl?.getProducts().push(pr!);
-                    }
-                    cl?.save().then(res=>{
-                        return true; 
+                    ClientProduct.create({clientId: cl?.id, productId: pr?.id}).then(cp=>{
+                        return cp;
+                    }).catch(err=>{
+                        return err;
                     });
                 });
             });
