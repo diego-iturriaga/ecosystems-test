@@ -18,7 +18,7 @@ router.post( "/", async ( req, res ) => {
         if(!usr)
             return res.status(400).json({msg: 'Username and password do not match.'});
         const token = createToken(usr);
-        return res.status(200).json({token});
+        return res.status(200).json({'token': token});
     });
 } );
 
