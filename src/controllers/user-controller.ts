@@ -19,7 +19,7 @@ class UserController implements IUserController{
     }
 
     async getUserAccountTransactions(userId: number, accountId: number): Promise<void | Transaction[] | null> {
-        return Transaction.findAll({where: {accountId}}).then(trlist => {
+        return Transaction.findAll({where: {accountId}, include: [TransactionDetail]}).then(trlist => {
             return trlist;
         });
     }
