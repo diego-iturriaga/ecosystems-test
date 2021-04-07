@@ -6,7 +6,7 @@ import User from "../models/user";
 const router = express.Router();
 
 // My implementations.
-const userController: UserController = new UserController();
+const userController: IUserController = new UserController();
 
 // Get all users.
 router.get( "/", ( req, res ) => {
