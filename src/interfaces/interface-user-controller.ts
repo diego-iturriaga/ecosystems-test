@@ -1,3 +1,4 @@
+import ClientProduct from "../models/client-product";
 import Account from "../models/account";
 import Transaction from "../models/transaction";
 import TransactionDetail from "../models/transaction-detail";
@@ -12,7 +13,7 @@ interface IUserController{
     // point 5
     getUserAccountSumAverageTransactions(userId: number, accountId: number, startDate: string, endDate: string): Promise<void | number | null>;
     // point 6
-    addNewProductToUser(userId: number, productId: number): Promise<void | boolean>;
+    addNewProductToUser(userId: number, productId: number): Promise<void | boolean | ClientProduct>;
 }
 
 export default IUserController;
