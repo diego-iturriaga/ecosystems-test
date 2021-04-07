@@ -1,7 +1,7 @@
 import User from "../models/user";
 
 class UserLoginController{
-    login(username: string, password: string): Promise<void | User | null>{
+    async login(username: string, password: string): Promise<void | User | null>{
         return User.findOne({where: {username}}).then(usr=>{
             if(!usr)
                 return null;

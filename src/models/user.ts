@@ -57,7 +57,6 @@ class User extends Model {
     return cr.validPassword(password, this.getPassword());
   }
 
-  @BeforeUpdate
   @BeforeCreate
   static createHashPassword(instance: User){
     const cr: ICrypto = new Crypto();
