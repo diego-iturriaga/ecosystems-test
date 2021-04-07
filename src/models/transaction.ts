@@ -1,4 +1,4 @@
-import { Column, DataType, ForeignKey, HasOne, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, ForeignKey, BelongsTo, Model, Table } from 'sequelize-typescript';
 import Account from './account';
 import TransactionDetail from './transaction-detail';
 
@@ -7,8 +7,14 @@ class Transaction extends Model {
   /* ATTRIBUTES */
   @Column(DataType.TEXT)
   private amount: number;
-  @HasOne(() => TransactionDetail)
+
+  @ForeignKey(() => TransactionDetail)
+  @Column(DataType.NUMBER)
+  private detailId: number;
+  
+  @BelongsTo(() => TransactionDetail, {foreignKey: 'detailId', targetKey: 'id'})
   private detail: TransactionDetail;
+
   @Column(DataType.TEXT)
   private currency: string;
 
@@ -40,6 +46,12 @@ class Transaction extends Model {
   }
   public setAccountId(value: number) {
     this.accountId = value;
+  }
+  public getDetailId(): number {
+    return this.detailId;
+  }
+  public setDetailId(value: number) {
+    this.detailId = value;
   }
 }
 

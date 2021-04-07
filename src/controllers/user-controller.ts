@@ -24,9 +24,12 @@ class UserController implements IUserController{
         });
     }
     async getUserAccountTransactionDetail(userId: number, accountId: number, transactionId: number): Promise<void | TransactionDetail | null> {
-        return TransactionDetail.findOne({where: {transactionId}}).then(trd => {
-            return trd;
+        return Transaction.findByPk(transactionId, {include: TransactionDetail}).then(trd => {
+            return trd?.getDetail();
         });
+        //return TransactionDetail.findOne({where: {transactionId}}).then(trd => {
+        //    return trd;
+        //});
     }
     async getUserAccountSumAverageTransactions(userId: number, accountId: number, startDate: string, endDate: string): Promise<number | void | null> {
         return Transaction.findAll(
