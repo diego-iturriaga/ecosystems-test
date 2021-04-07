@@ -19,9 +19,9 @@ router.get( "/", ( req, res ) => {
 2.Listado de mis cuentas bancarias.
 GET /api/v1/user/:id/account/
 */
-router.get( "/:userId/account", async ( req, res ) => {
+router.get( "/:userId/account", ( req, res ) => {
     const userId = Number(req.params.userId);
-    await userController.getUserAccounts(userId)
+    userController.getUserAccounts(userId)
     .then(accs=>{
         if (!accs)
             return res.status(400).json({msg: 'Resource not found.'});
@@ -35,10 +35,10 @@ router.get( "/:userId/account", async ( req, res ) => {
 3.Listado de las transacciones asociadas a una cuenta específica.
 GET /api/v1/user/:accountId/account/:id/transaction/
 */
-router.get( "/:userId/account/:accountId/transaction", async( req, res ) => {
+router.get( "/:userId/account/:accountId/transaction", ( req, res ) => {
     const userId = Number(req.params.userId);
     const accountId = Number(req.params.accountId);
-    await userController.getUserAccountTransactions(userId, accountId)
+    userController.getUserAccountTransactions(userId, accountId)
     .then(trs=>{
         if (!trs)
             return res.status(400).json({msg: 'Resource not found.'});
@@ -53,11 +53,11 @@ router.get( "/:userId/account/:accountId/transaction", async( req, res ) => {
 4.Detalle de la transacción
 GET /api/v1/user/:id/account/:id/transaction/:id/detail/
 */
-router.get( "/:userId/account/:accountId/transaction/:transactionId/detail", async( req, res ) => {
+router.get( "/:userId/account/:accountId/transaction/:transactionId/detail", (req, res ) => {
     const userId = Number(req.params.userId);
     const accountId = Number(req.params.accountId);
     const transactionId = Number(req.params.transactionId);
-    await userController.getUserAccountTransactionDetail(userId, accountId, transactionId)
+    userController.getUserAccountTransactionDetail(userId, accountId, transactionId)
     .then(td=>{
         if (!td)
             return res.status(400).json({msg: 'Resource not found.'});
@@ -71,12 +71,12 @@ router.get( "/:userId/account/:accountId/transaction/:transactionId/detail", asy
 5.Promedio del monto de las transacciones de una cuenta, dado un rango de tiempo.
 GET /api/v1/user/:id/account/:id/sum-average-transaction/
 */
-router.get( "/:userId/account/:accountId/sum-average-transaction/:startdate/:enddate", async ( req, res ) => {
+router.get( "/:userId/account/:accountId/sum-average-transaction/:startdate/:enddate", ( req, res ) => {
     const userId = Number(req.params.userId);
     const accountId = Number(req.params.accountId);
     const startDate = req.params.startdate;
     const endDate = req.params.enddate;
-    await userController.getUserAccountSumAverageTransactions(userId, accountId, startDate, endDate)
+    userController.getUserAccountSumAverageTransactions(userId, accountId, startDate, endDate)
     .then(td=>{
         if (!td)
             return res.status(400).json({msg: 'Resource not found.'});

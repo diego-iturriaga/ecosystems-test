@@ -10,7 +10,7 @@ import ClientProduct from '../models/client-product';
 
 
 class UserController implements IUserController{
-    async getUserAccounts(userId: number): Promise<void | Account[] | null> {
+    getUserAccounts(userId: number): Promise<void | Account[] | null> {
         return User.findOne({where: {id: userId}, include: [Client]}).then(usr => {
             return Account.findAll({where: {clientId: usr?.getClientId()}}).then(accs=>{
                 return accs;
@@ -18,12 +18,12 @@ class UserController implements IUserController{
         });
     }
 
-    async getUserAccountTransactions(userId: number, accountId: number): Promise<void | Transaction[] | null> {
+    getUserAccountTransactions(userId: number, accountId: number): Promise<void | Transaction[] | null> {
         return Transaction.findAll({where: {accountId}, include: [TransactionDetail]}).then(trlist => {
             return trlist;
         });
     }
-    async getUserAccountTransactionDetail(userId: number, accountId: number, transactionId: number): Promise<void | TransactionDetail | null> {
+    getUserAccountTransactionDetail(userId: number, accountId: number, transactionId: number): Promise<void | TransactionDetail | null> {
         return Transaction.findByPk(transactionId, {include: TransactionDetail}).then(trd => {
             return trd?.getDetail();
         });
@@ -31,7 +31,7 @@ class UserController implements IUserController{
         //    return trd;
         //});
     }
-    async getUserAccountSumAverageTransactions(userId: number, accountId: number, startDate: string, endDate: string): Promise<number | void | null> {
+    getUserAccountSumAverageTransactions(userId: number, accountId: number, startDate: string, endDate: string): Promise<number | void | null> {
         return Transaction.findAll(
             {where:
                 {accountId,
@@ -47,7 +47,7 @@ class UserController implements IUserController{
                 return sum/count;
             });
     }
-    async addNewProductToUser(userId: number, productId: number): Promise<void | boolean | ClientProduct> {
+    addNewProductToUser(userId: number, productId: number): Promise<void | boolean | ClientProduct> {
         return User.findByPk(userId).then(usr=>{
             return Product.findByPk(productId).then(pr=>{
                 return Client.findByPk(usr?.getClientId(), {include: Product}).then(cl=>{
