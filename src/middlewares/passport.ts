@@ -13,7 +13,7 @@ export default new Strategy(opts, (...[req, token, done]: Parameters<VerifyCallb
         return done(null, false);
     }
 
-    if (req.params.userId !== token.id) {
+    if (parseInt(req.url.split('/')[1]) !== token.id) {
         return done(new Error("Unauthorized"));
     }
     User.findByPk(token.id).then(usr => {

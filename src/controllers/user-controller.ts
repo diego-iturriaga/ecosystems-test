@@ -10,7 +10,6 @@ import Client from "../models/client";
 
 class UserController implements IUserController{
     getUserAccounts(userId: number): Promise<void | Account[] | null> {
-        // Faltan controles de acceso sobre la información
         return User.findOne({where: {id: userId}, include: [Client]}).then(usr => {
             return Account.findAll({where: {clientId: usr?.getClientId()}}).then(accs=>{
                 return accs;
@@ -19,19 +18,16 @@ class UserController implements IUserController{
     }
 
     getUserAccountTransactions(userId: number, accountId: number): Promise<void | Transaction[] | null> {
-        // Faltan controles de acceso sobre la información
         return Transaction.findAll({where: {accountId}}).then(trlist => {
             return trlist;
         });
     }
     getUserAccountTransactionDetail(userId: number, accountId: number, transactionId: number): Promise<void | TransactionDetail | null> {
-        // Faltan controles de acceso sobre la información
         return TransactionDetail.findOne({where: {transactionId}}).then(trd => {
             return trd;
         });
     }
     getUserAccountSumAverageTransactions(userId: number, accountId: number, startDate: string, endDate: string): Promise<number | void | null> {
-        // Faltan controles de acceso sobre la información
         return Transaction.findAll(
             {where:
                 {accountId,
@@ -45,18 +41,24 @@ class UserController implements IUserController{
                 });
                 if(count===0) return 0;
                 return sum/count;
-            }).catch(err=> {
-                // tslint:disable-next-line:no-console
-                console.log(err);
             });
     }
-    addNewProductToUser(userId: number, productId: number): Promise<boolean | void | null> {
+    addNewProductToUser(userId: number, productId: number): Promise<void | boolean> {
         // Faltan controles de acceso sobre la información
         return User.findByPk(userId).then(usr=>{
             Product.findByPk(productId).then(pr=>{
-                usr?.getClient().getProducts().push(pr!);
-                usr?.save();
-                return true;
+                Client.findByPk(usr?.getClientId(), {include: Product}).then(cl=>{
+                    let prlist: Product[];
+                    if(!cl?.getProducts()){
+                        prlist = [pr!];
+                        cl?.setProducts(prlist);
+                    }else{
+                        cl?.getProducts().push(pr!);
+                    }
+                    cl?.save().then(res=>{
+                        return true; 
+                    });
+                });
             });
         });
     }

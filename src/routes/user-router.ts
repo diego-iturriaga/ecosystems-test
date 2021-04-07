@@ -24,10 +24,10 @@ router.get( "/:userId/account", ( req, res ) => {
     userController.getUserAccounts(userId)
     .then(accs=>{
         if (!accs)
-            res.status(400).json({msg: 'Resource not found.'});
-        res.status(200).json(accs);
+            return res.status(400).json({msg: 'Resource not found.'});
+        return res.status(200).json(accs);
     }).catch(err=>{
-        res.status(500).json('An error has occurred.');
+        return res.status(500).json('An error has occurred.');
     });
 });
 
@@ -41,8 +41,8 @@ router.get( "/:userId/account/:accountId/transaction", ( req, res ) => {
     userController.getUserAccountTransactions(userId, accountId)
     .then(trs=>{
         if (!trs)
-            res.status(400).json({msg: 'Resource not found.'});
-        res.status(200).json(trs);
+            return res.status(400).json({msg: 'Resource not found.'});
+        return res.status(200).json(trs);
     }).catch(err=>{
         res.status(500).json('An error has occurred.');
     });
@@ -60,10 +60,10 @@ router.get( "/:userId/account/:accountId/transaction/:transactionId/detail", ( r
     userController.getUserAccountTransactionDetail(userId, accountId, transactionId)
     .then(td=>{
         if (!td)
-            res.status(400).json({msg: 'Resource not found.'});
-        res.status(200).json(td);
+            return res.status(400).json({msg: 'Resource not found.'});
+        return res.status(200).json(td);
     }).catch(err=>{
-        res.status(500).json('An error has occurred.');
+        return res.status(500).json('An error has occurred.');
     });
 });
 
@@ -79,10 +79,10 @@ router.get( "/:userId/account/:accountId/sum-average-transaction/:startdate/:end
     userController.getUserAccountSumAverageTransactions(userId, accountId, startDate, endDate)
     .then(td=>{
         if (!td)
-            res.status(400).json({msg: 'Resource not found.'});
-        res.status(200).json(td);
+            return res.status(400).json({msg: 'Resource not found.'});
+        return res.status(200).json(td);
     }).catch(err=>{
-        res.status(500).json('An error has occurred.');
+        return res.status(500).json('An error has occurred.');
     });
 });
 
@@ -91,11 +91,12 @@ router.get( "/:userId/account/:accountId/sum-average-transaction/:startdate/:end
 PATCH /api/v1/user/:id/product/
 Payload: {"op": "add", "path": "products", "value": :id }
 */
-router.patch( "/:userId/account/:accountId/product/:productId", ( req, res ) => {
+router.patch("/:userId/product/:productId/addproduct", ( req, res ) => {
     const userId = Number(req.params.userId);
     const productId = Number(req.params.productId);
     userController.addNewProductToUser(userId, productId).then(r=>{
-        res.status(200).json(r);
+        if(r)
+            return res.status(200).json({result: r});
     });
 });
 

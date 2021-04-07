@@ -19,8 +19,6 @@ router.post( "/", ( req, res ) => {
             return res.status(400).json({msg: 'Username and password do not match.'});
         const token = createToken(usr);
         return res.status(200).json({token}).header({"auth-token": token});
-    }).catch(err => {
-        return res.status(500).json({msg: 'An error has occurred.'});
     });
 } );
 
