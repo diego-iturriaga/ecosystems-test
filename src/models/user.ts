@@ -1,5 +1,4 @@
 import { AllowNull, BeforeCreate, BeforeUpdate, BelongsTo, Column, DataType, ForeignKey, HasOne, Model, Table } from 'sequelize-typescript';
-import ICrypto from "../interfaces/inteface-crypto";
 import Crypto from "../utils/crypto";
 import Client from "./client";
 
@@ -53,13 +52,13 @@ class User extends Model {
     this.clientId = value;
   }
   validatePassword(password: string): boolean{
-    const cr: ICrypto = new Crypto();
+    const cr: Crypto = new Crypto();
     return cr.validPassword(password, this.getPassword());
   }
 
   @BeforeCreate
   static createHashPassword(instance: User){
-    const cr: ICrypto = new Crypto();
+    const cr: Crypto = new Crypto();
     instance.setPassword(cr.hash(instance.getPassword()));
   }
 }

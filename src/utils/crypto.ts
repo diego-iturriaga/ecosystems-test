@@ -1,7 +1,6 @@
 import bcrypt from "bcrypt";
-import ICrypto from "../interfaces/inteface-crypto";
 
-class Crypto implements ICrypto{
+class Crypto{
     saltRounds: number = 10;
     hash(text: string): string {
         return bcrypt.hashSync(text, this.saltRounds);

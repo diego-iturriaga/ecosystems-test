@@ -1,6 +1,6 @@
 import { Column, DataType, ForeignKey, BelongsTo, Model, Table } from 'sequelize-typescript';
 import Account from './account';
-import TransactionDetail from './transaction-detail';
+import TransactionDetail from './transaction.detail';
 
 @Table({'timestamps': true})
 class Transaction extends Model {

@@ -4,17 +4,20 @@ import express, { Router } from "express";
 import passport, { authorize } from "passport";
 import { Sequelize } from 'sequelize-typescript';
 import config from "./config/config";
+import UserLoginController from "./controllers/user-login";
 import passportMiddleware from "./middlewares/passport";
-import loginRouter from "./routes/login-router";
-import userRouter from "./routes/user-router";
+import loginRouter from "./routes/login.router";
+import userRouter from "./routes/user.router";
+import TokenCreator from "./utils/token.creator";
 
 class Server{
     // Express initialization.
     public app;
+    public sequelize;
 
     constructor(){
         // Sequelize database configuration.
-        const sequelize = new Sequelize({
+        this.sequelize = new Sequelize({
         database: config.dbName,
         dialect: 'sqlite',
         username: config.dbUsername,
@@ -47,13 +50,15 @@ class Server{
 
     start(): void{
         // Route creations.
-        const router: Router = express.Router()
-        router.use("/login", loginRouter);
-        router.use("/user", passport.authenticate('jwt', {session: false}),
-                            userRouter);
+        const router: Router = express.Router();
+        loginRouter(this.app, 
+            new UserLoginController(), 
+            new TokenCreator());
+
+        userRouter(this.app);
 
         // first level routing
-        this.app.use(`/${config.apiPrefix}/${config.apiVersion}`, router);
+        //this.app.use(`/${config.apiPrefix}/${config.apiVersion}`, router);
 
         // Run server!
         this.app.listen(config.port, () => {

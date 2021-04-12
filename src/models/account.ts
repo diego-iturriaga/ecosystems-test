@@ -1,10 +1,14 @@
-import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from 'sequelize-typescript';
+import { AllowNull, BelongsTo, Column, DataType, Default, ForeignKey, HasMany, Model, PrimaryKey, Table } from 'sequelize-typescript';
 import Client from './client';
 import Transaction from './transaction';
 
-@Table({'timestamps': true})
+@Table({ 'timestamps': true })
 class Account extends Model {
   /* ATTRIBUTES */
+  @AllowNull(false)
+  @PrimaryKey
+  @Column(DataType.UUID)
+  id: string;
   @Column(DataType.TEXT)
   private name: string;
   @Column(DataType.TEXT)
@@ -14,13 +18,16 @@ class Account extends Model {
   @Column(DataType.NUMBER)
   private clientId: number;
 
-  @BelongsTo(() => Client, {foreignKey: 'clientId', targetKey: 'id'})
+  @BelongsTo(() => Client, { foreignKey: 'clientId', targetKey: 'id' })
   private client: Client;
 
   @HasMany(() => Transaction)
   private transactions: Transaction[];
 
   /* MODIFIERS */
+  public getId(): string {
+    return this.id;
+  }
   public getName(): string {
     return this.name;
   }

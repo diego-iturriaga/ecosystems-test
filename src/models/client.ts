@@ -1,6 +1,6 @@
 import { BelongsToMany, Column, DataType, ForeignKey, HasMany, Model, Table, Unique } from 'sequelize-typescript';
 import Account from './account';
-import ClientProduct from "./client-product";
+import ClientProduct from "./client.product";
 import Product from './product';
 import User from './user';
 

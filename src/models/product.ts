@@ -1,6 +1,6 @@
 import { BelongsToMany, Column, DataType, Model, Table } from 'sequelize-typescript';
 import Client from "./client";
-import ClientProduct from "./client-product";
+import ClientProduct from "./client.product";
 
 @Table({'timestamps': true})
 class Product extends Model {
