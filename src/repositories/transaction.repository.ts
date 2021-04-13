@@ -5,13 +5,12 @@ import { IRepository } from './repository';
  * The schema definition. In other word,
  * A Document of the user collection contains following fields.
  */
-export interface UserDocument {
-  _id: string;
-  username: string;
-  email: string;
-  lastLoggedIn?: Date;
-  password: string;
-  role?: number;
+export interface TransactionDocument {
+  id: string;
+  amount: number;
+  detailId: string;
+  currency: string;
+  accountId: string;
   deletedAt?: Date;
   createdAt?: Date;
 }
@@ -19,7 +18,7 @@ export interface UserDocument {
 /**
  * Repository interface.
  */
-export interface ITransactionRepository extends IRepository<UserDocument> {
+export interface ITransactionRepository extends IRepository<TransactionDocument> {
 }
 
 /**
@@ -31,10 +30,7 @@ export interface ITransactionRepository extends IRepository<UserDocument> {
 export default class TransactionRepository implements ITransactionRepository {
   constructor() {
   }
-  getById(id: string): Promise<UserDocument> {
-    throw new Error('Method not implemented.');
-  }
-  save(t: UserDocument): Promise<any> {
+  public async getById(id: string): Promise<TransactionDocument | null> {
     throw new Error('Method not implemented.');
   }
 }

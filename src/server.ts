@@ -1,7 +1,7 @@
 import compression from "compression";
 import cors from "cors";
 import express, { Router } from "express";
-import passport, { authorize } from "passport";
+import passport from "passport";
 import { Sequelize } from 'sequelize-typescript';
 import config from "./config/config";
 import UserLoginController from "./controllers/user-login";
@@ -26,7 +26,7 @@ class Server{
         models: [__dirname + '/models'] // or [Player, Team],
         })
         // Sequelize initialization and sync database.
-        /*sequelize
+        /*this.sequelize
                 .sync({force: true})
                 .then(() => {
                     // tslint:disable-next-line:no-console

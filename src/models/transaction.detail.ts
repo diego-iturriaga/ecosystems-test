@@ -1,20 +1,14 @@
-import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
-import Transaction from './transaction';
+import { Column, DataType, IsUUID, Model, PrimaryKey, Table } from 'sequelize-typescript';
 
 @Table({'timestamps': true})
 class TransactionDetail extends Model {
   /* ATTRIBUTES */
+  @IsUUID(4)
+  @PrimaryKey
+  @Column(DataType.UUID)
+  id: string
   @Column(DataType.TEXT)
-  private description: string
-  @ForeignKey(() => Transaction)
-
-  /* ATTRIBUTES */
-  public getDescription(): string {
-    return this.description
-  }
-  public setDescription(value: string) {
-    this.description = value
-  }
+  description: string
 }
 
 export default TransactionDetail;

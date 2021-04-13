@@ -1,23 +1,24 @@
-import {Application} from "express";
-import UserController from "../controllers/user.controller";
+import { Application } from "express";
 import container from "../inversify";
+import UserController from "../controllers/user.controller";
 import asyncWrap from "../utils/asyncwrap";
 
 export default function (app: Application) {
     const UserControllerInstance = container.get<UserController>(UserController);
+    
     /*
     2.Listado de mis cuentas bancarias.
     GET /api/v1/user/:id/account/
     */
     app.get( "/user/:userId/account", 
-            asyncWrap(UserControllerInstance.getUserAccounts.bind(UserController)));
+        asyncWrap(UserControllerInstance.getUserAccounts.bind(UserControllerInstance)));
 
     /*
     3.Listado de las transacciones asociadas a una cuenta específica.
     GET /api/v1/user/:accountId/account/:id/transaction/
     */
-    app.get("/user/:userId/account/:accountId/transaction", 
-            asyncWrap(UserControllerInstance.getUserAccountTransactions.bind(UserController)));
+    app.get("/user/:userId/account/:accountId/transaction",  
+        asyncWrap(UserControllerInstance.getUserAccountTransactions.bind(UserControllerInstance)));
 
 
     /*

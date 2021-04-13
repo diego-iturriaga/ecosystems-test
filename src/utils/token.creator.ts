@@ -4,7 +4,7 @@ import config from "../config/config";
 
 class TokenCreator {
     createToken(user:User): string{
-        return jwt.sign({id: user.id, username:user.getUsername}, config.jwtSecret, {expiresIn: 86400});
+        return jwt.sign({id: user.id, username:user.username}, config.jwtSecret, {expiresIn: 86400});
     }
 }
 

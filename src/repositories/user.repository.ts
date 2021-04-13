@@ -11,7 +11,7 @@ export interface UserDocument {
   username: string;
   password: string;
   lastLogin?: Date;
-  client_id: number;
+  clientId: string;
   deletedAt?: Date;
   createdAt?: Date;
 }
@@ -20,8 +20,8 @@ export interface UserDocument {
  * Repository interface.
  */
 export interface IUserRepository extends IRepository<UserDocument> {
-  //isUsernameExists(username: string): Promise<boolean>;
-  //isEmailExists(username: string): Promise<boolean>;
+  isUsernameExists(username: string): Promise<boolean>;
+  isEmailExists(username: string): Promise<boolean>;
 }
 
 /**
@@ -31,22 +31,13 @@ export interface IUserRepository extends IRepository<UserDocument> {
  */
 @injectable()
 export default class UserRepository implements IUserRepository {
-  private models: any;
 
-  constructor (@unmanaged() models: any) {
-    this.models = models;
-  }
-
-  public async getById(id: string): Promise<any> {
+  public async getById(id: string): Promise<UserDocument| null> {
     const res = await User.findByPk(id, {raw: true}).then(res=>{
       return res;
     });
     return res;
   }
-  public async save(t: UserDocument): Promise<any> {
-    throw new Error('Method not implemented.');
-  }
-
   public async isUsernameExists(username: string): Promise<boolean> {
     return false;
   }

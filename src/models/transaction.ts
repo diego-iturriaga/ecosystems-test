@@ -1,58 +1,31 @@
-import { Column, DataType, ForeignKey, BelongsTo, Model, Table } from 'sequelize-typescript';
+import { BelongsTo, Column, DataType, ForeignKey, IsUUID, Model, PrimaryKey, Table } from 'sequelize-typescript';
 import Account from './account';
 import TransactionDetail from './transaction.detail';
 
 @Table({'timestamps': true})
 class Transaction extends Model {
   /* ATTRIBUTES */
+  @IsUUID(4)
+  @PrimaryKey
+  @Column(DataType.UUID)
+  id: string
   @Column(DataType.TEXT)
-  private amount: number;
+  amount: number;
 
   @ForeignKey(() => TransactionDetail)
   @Column(DataType.NUMBER)
-  private detailId: number;
+  detailId: string;
   
   @BelongsTo(() => TransactionDetail, {foreignKey: 'detailId', targetKey: 'id'})
-  private detail: TransactionDetail;
+  detail: TransactionDetail;
 
   @Column(DataType.TEXT)
-  private currency: string;
+  currency: string;
 
   @ForeignKey(() => Account)
-  @Column(DataType.NUMBER)
-  private accountId: number;
+  @Column(DataType.UUID)
+  accountId: string;
 
-  /* MODIFIERS */
-  public getAmount(): number {
-    return this.amount;
-  }
-  public setAmount(value: number) {
-    this.amount = value;
-  }
-  public getDetail(): TransactionDetail {
-    return this.detail;
-  }
-  public setDetail(value: TransactionDetail) {
-    this.detail = value;
-  }
-  public getCurrency(): string {
-    return this.currency;
-  }
-  public setCurrency(value: string) {
-    this.currency = value;
-  }
-  public getAccountId(): number {
-    return this.accountId;
-  }
-  public setAccountId(value: number) {
-    this.accountId = value;
-  }
-  public getDetailId(): number {
-    return this.detailId;
-  }
-  public setDetailId(value: number) {
-    this.detailId = value;
-  }
 }
 
 export default Transaction;

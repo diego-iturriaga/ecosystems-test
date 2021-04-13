@@ -1,63 +1,28 @@
-import { AllowNull, BelongsTo, Column, DataType, Default, ForeignKey, HasMany, Model, PrimaryKey, Table } from 'sequelize-typescript';
+import { BelongsTo, Column, DataType, ForeignKey, HasMany, IsUUID, Model, PrimaryKey, Table } from 'sequelize-typescript';
 import Client from './client';
 import Transaction from './transaction';
 
 @Table({ 'timestamps': true })
 class Account extends Model {
   /* ATTRIBUTES */
-  @AllowNull(false)
+  @IsUUID(4)
   @PrimaryKey
   @Column(DataType.UUID)
-  id: string;
+  id: string
   @Column(DataType.TEXT)
-  private name: string;
+  name: string;
   @Column(DataType.TEXT)
-  private type: string;
+  type: string;
 
   @ForeignKey(() => Client)
-  @Column(DataType.NUMBER)
-  private clientId: number;
+  @Column(DataType.UUID)
+  clientId: string;
 
   @BelongsTo(() => Client, { foreignKey: 'clientId', targetKey: 'id' })
-  private client: Client;
+  client: Client;
 
   @HasMany(() => Transaction)
-  private transactions: Transaction[];
-
-  /* MODIFIERS */
-  public getId(): string {
-    return this.id;
-  }
-  public getName(): string {
-    return this.name;
-  }
-  public setName(value: string) {
-    this.name = value;
-  }
-  public getType(): string {
-    return this.type;
-  }
-  public setType(value: string) {
-    this.type = value;
-  }
-  public getClientId(): number {
-    return this.clientId;
-  }
-  public setClientId(value: number) {
-    this.clientId = value;
-  }
-  public getClient(): Client {
-    return this.client;
-  }
-  public setClient(value: Client) {
-    this.client = value;
-  }
-  public getTransactions(): Transaction[] {
-    return this.transactions;
-  }
-  public setTransactions(value: Transaction[]) {
-    this.transactions = value;
-  }
+  transactions: Transaction[];
 }
 
 export default Account;

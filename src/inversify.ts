@@ -1,18 +1,17 @@
 import { Container } from 'inversify';
-import { TYPES } from './types';
-import UserRepository, { IUserRepository } from './repositories/user.repository';
-import UserService, { IUserService } from './services/user.service';
 import UserController from './controllers/user.controller';
-import ClientRepository, { IClientRepository } from './repositories/client.repository';
 import AccountRepository, { IAccountRepository } from './repositories/account.repository';
-import TransactionRepository, { ITransactionDetailRepository } from './repositories/transaction.detail.repository';
-import { ITransactionRepository } from './repositories/transaction.repository';
-import TransactionDetailRepository from './repositories/transaction.detail.repository';
+import ClientRepository, { IClientRepository } from './repositories/client.repository';
+import TransactionDetailRepository, { ITransactionDetailRepository } from './repositories/transaction.detail.repository';
+import TransactionRepository, { ITransactionRepository } from './repositories/transaction.repository';
+import UserRepository, { IUserRepository } from './repositories/user.repository';
+import RepoService, { IRepoService } from './services/service';
+import { TYPES } from './types';
 
 const container = new Container({ defaultScope: 'Singleton' });
 container.bind(UserController).to(UserController);
 container.bind<IUserRepository>(TYPES.UserRepository).to(UserRepository);
-container.bind<IUserService>(TYPES.UserService).to(UserService);
+container.bind<IRepoService>(TYPES.RepoService).to(RepoService);
 
 
 container.bind<IClientRepository>(TYPES.ClientRepository).to(ClientRepository);

@@ -4,9 +4,9 @@
  */
  export const TYPES = {
   UserController: Symbol('UserController'),
-  UserService: Symbol('UserService'),
-  UserRepository: Symbol('UserRepository'),
+  RepoService: Symbol('RepoService'),
   
+  UserRepository: Symbol('UserRepository'),
   ClientRepository: Symbol('ClientRepository'),
   AccountRepository: Symbol('AccountRepository'),
   TransactionRepository: Symbol('TransactionRepository'),

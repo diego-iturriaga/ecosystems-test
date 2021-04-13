@@ -1,4 +1,5 @@
 import { injectable } from 'inversify';
+import Account from '../models/account';
 import { IRepository } from './repository';
 
 /**
@@ -6,12 +7,10 @@ import { IRepository } from './repository';
  * A Document of the user collection contains following fields.
  */
 export interface AccountDocument {
-  _id: string;
-  username: string;
-  email: string;
-  lastLoggedIn?: Date;
-  password: string;
-  role?: number;
+  id: string;
+  name: string;
+  type: string;
+  clientId: string;
   deletedAt?: Date;
   createdAt?: Date;
 }
@@ -20,6 +19,7 @@ export interface AccountDocument {
  * Repository interface.
  */
 export interface IAccountRepository extends IRepository<AccountDocument> {
+  getAccountsByClientId(clientId: string): Promise<AccountDocument[] | void>
 }
 
 /**
@@ -31,10 +31,12 @@ export interface IAccountRepository extends IRepository<AccountDocument> {
 export default class AccountRepository implements IAccountRepository {
   constructor() {
   }
-  getById(id: string): Promise<AccountDocument> {
-    throw new Error('Method not implemented.');
+  public async getAccountsByClientId(clientId: string): Promise<AccountDocument[]> {
+    const res = await Account.findAll({where: {clientId: clientId}, raw: true});
+    return res? res : [];
   }
-  save(t: AccountDocument): Promise<any> {
-    throw new Error('Method not implemented.');
+  public async getById(id: string): Promise<AccountDocument | null> {
+    const res = await Account.findByPk(id, {raw: true});
+    return res?.get({plain: true});
   }
 }

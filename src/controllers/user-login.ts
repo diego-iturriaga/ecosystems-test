@@ -7,8 +7,8 @@ class UserLoginController{
                 return null;
             const isMatch: boolean = usr.validatePassword(password);
             if(isMatch){
-                usr.setLastLogin(new Date());
-                usr.save();
+                //usr.setLastLogin(new Date());
+                //usr.save();
                 return usr;
             }else{
                 return null;

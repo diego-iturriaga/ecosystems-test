@@ -5,12 +5,12 @@ import Product from "./product";
 @Table
 class ClientProduct extends Model {
   @ForeignKey(() => Client)
-  @Column(DataType.NUMBER)
-  clientId: number
+  @Column(DataType.UUID)
+  clientId: string
 
   @ForeignKey(() => Product)
-  @Column(DataType.NUMBER)
-  productId: number
+  @Column(DataType.UUID)
+  productId: string
 }
 
 export default ClientProduct;
