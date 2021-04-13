@@ -1,10 +1,10 @@
 import { inject, injectable } from "inversify";
-import TransactionDetail from "../models/transaction.detail";
+import { IClientProductRepository } from "../repositories/client.product.repository";
 import Account from "../models/account";
-import Client from "../models/client";
 import Transaction from "../models/transaction";
+import TransactionDetail from "../models/transaction.detail";
 import { AccountDocument, IAccountRepository } from "../repositories/account.repository";
-import { ClientDocument, IClientRepository } from "../repositories/client.repository";
+import { IClientRepository } from "../repositories/client.repository";
 import { ITransactionDetailRepository, TransactionDetailDocument } from "../repositories/transaction.detail.repository";
 import { ITransactionRepository, TransactionDocument } from "../repositories/transaction.repository";
 import { IUserRepository, UserDocument } from '../repositories/user.repository';
@@ -15,7 +15,7 @@ import { TYPES } from '../types';
  */
 export interface IRepoService {
   getUserByUsername(username: string): Promise<UserDocument | null>;
-  addProductToClient(clientId: string, productId: string): Promise<boolean>;
+  addProductToClient(userId: string, productId: string): Promise<boolean>;
   getAccounts(userId: string): Promise<AccountDocument[] | null>;
   getTransactions(accountId: string): Promise<TransactionDocument[] | null>;
   getTransactionDetail(transactionId: string): Promise<TransactionDetailDocument | null>;
@@ -33,6 +33,7 @@ export default class RepoService implements IRepoService {
   @inject(TYPES.AccountRepository) private accountRepository: IAccountRepository;
   @inject(TYPES.TransactionDetailRepository) private transactionDetailRepository: ITransactionDetailRepository;
   @inject(TYPES.TransactionRepository) private transactionRepository: ITransactionRepository;
+  @inject(TYPES.ClientProductRepository) private clientProductRepository: IClientProductRepository;
 
   public async getUserByUsername(username: string): Promise<UserDocument | null> {
     return this.userRepository.getUserByUsername(username);
@@ -64,8 +65,15 @@ export default class RepoService implements IRepoService {
     const res = await this.accountRepository.getAverage(accountId);
     return res;
   }
-  public async addProductToClient(clientId: string, productId: string): Promise<boolean> {
-    const res = await this.clientRepository.addProduct(clientId, productId);
-    return res;
+  public async addProductToClient(userId: string, productId: string): Promise<boolean> {
+    const resUser = await this.userRepository.getById(userId);
+    if(!resUser){
+      return false;
+    }
+    if(resUser){
+      const res = await this.clientProductRepository.addProductToClient(resUser.clientId, productId);
+      return res;
+    }
+    return false;
   }  
 }

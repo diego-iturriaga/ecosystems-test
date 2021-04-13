@@ -16,8 +16,8 @@ class UserController{
         const password = req.body.password;
         const usr = await this.repoService.getUserByUsername(username);
         if (!usr) {
-            return res.status(404).send({
-                code: 404,
+            return res.status(401).send({
+                code: 401,
                 message: StaticStringKeys.USER_NOT_FOUND
             });
         }
@@ -84,15 +84,15 @@ class UserController{
         res.send({data: {'average': response}});
     }
     public async addNewProductToUser(req: Request, res: Response): Promise<void> {
-        if (!req.params.clientId) {
-            throw new MissingFieldError('clientId');
+        if (!req.params.userId) {
+            throw new MissingFieldError('userId');
         }
         if (!req.params.productId) {
             throw new MissingFieldError('productId');
         }
-        const clientId = req.params.clientId;
+        const userId = req.params.userId;
         const productId = req.params.productId;
-        const response = await this.repoService.addProductToClient(clientId, productId);
+        const response = await this.repoService.addProductToClient(userId, productId);
         res.send({data: {'result': response}});
     }
 }

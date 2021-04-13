@@ -9,7 +9,7 @@ export default function (app: Application) {
 
   // If you are lost
   app.use(() => {
-    throw new NotFoundError('You are lost');
+    throw new NotFoundError(JSON.stringify({error: 'Endpoint not found'}));
   });
 
   // Request error handler

@@ -11,5 +11,7 @@
   AccountRepository: Symbol('AccountRepository'),
   TransactionRepository: Symbol('TransactionRepository'),
   TransactionDetailRepository: Symbol('TransactionDetailRepository'),
+  ClientProductRepository: Symbol('ClientProductRepository'),
+  
 };
   

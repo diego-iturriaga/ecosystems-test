@@ -8,7 +8,7 @@ import errorHandler from "./errors/error.handler";
 import passportMiddleware from "./middlewares/passport";
 import UserRoutes from "./routes/user.router";
 
-class Server{
+export default class Server{
     // Express initialization.
     public app;
     public sequelize;

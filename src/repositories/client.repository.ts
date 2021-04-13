@@ -1,5 +1,4 @@
 import { injectable } from 'inversify';
-import Product from '../models/product';
 import Client from '../models/client';
 import { IRepository } from './repository';
 
@@ -22,7 +21,6 @@ export interface ClientDocument {
  * Repository interface.
  */
 export interface IClientRepository extends IRepository<ClientDocument> {
-  addProduct(clientId: string, productId: string): Promise<boolean>;
   getByIdIncludes(id: string, includes: any): Promise<ClientDocument | null>;
 }
 
@@ -33,16 +31,6 @@ export interface IClientRepository extends IRepository<ClientDocument> {
  */
 @injectable()
 export default class ClientRepository implements IClientRepository {
-  public async addProduct(clientId: string, productId: string): Promise<boolean> {
-    var cl = await Client.findByPk(clientId);
-    var pr = await Product.findByPk(productId);
-    if(cl && pr){
-      cl.products.push(pr);
-      cl.save();
-      return true;
-    }
-    return false;
-  }
   public async getById(id: string): Promise<ClientDocument | null> {
     const res = await Client.findOne({where: {id}});
     return res?res.get({plain:true}):null;

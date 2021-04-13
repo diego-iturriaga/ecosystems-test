@@ -1,6 +1,7 @@
 import { Container } from 'inversify';
 import UserController from './controllers/user.controller';
 import AccountRepository, { IAccountRepository } from './repositories/account.repository';
+import ClientProductRepository, { IClientProductRepository } from './repositories/client.product.repository';
 import ClientRepository, { IClientRepository } from './repositories/client.repository';
 import TransactionDetailRepository, { ITransactionDetailRepository } from './repositories/transaction.detail.repository';
 import TransactionRepository, { ITransactionRepository } from './repositories/transaction.repository';
@@ -21,5 +22,8 @@ container.bind<IAccountRepository>(TYPES.AccountRepository).to(AccountRepository
 container.bind<ITransactionRepository>(TYPES.TransactionRepository).to(TransactionRepository);
 
 container.bind<ITransactionDetailRepository>(TYPES.TransactionDetailRepository).to(TransactionDetailRepository);
+
+container.bind<IClientProductRepository>(TYPES.ClientProductRepository).to(ClientProductRepository);
+
 
 export default container;
