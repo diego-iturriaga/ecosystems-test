@@ -1,5 +1,4 @@
 import { injectable } from 'inversify';
-import TransactionDetail from '../models/transaction.detail';
 import { IRepository } from './repository';
 
 /**

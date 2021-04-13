@@ -20,6 +20,7 @@ export interface UserDocument {
  * Repository interface.
  */
 export interface IUserRepository extends IRepository<UserDocument> {
+  getUserByUsername(username: string): Promise<UserDocument | null>;
   isUsernameExists(username: string): Promise<boolean>;
   isEmailExists(username: string): Promise<boolean>;
 }
@@ -31,6 +32,10 @@ export interface IUserRepository extends IRepository<UserDocument> {
  */
 @injectable()
 export default class UserRepository implements IUserRepository {
+  getUserByUsername(username: string): Promise<UserDocument | null> {
+    const user = User.findOne({where: {username: username}});
+    return user;
+  }
   public async getById(id: string): Promise<UserDocument | null> {
     const res = await User.findByPk(id, {raw: true}).then(res=>{
       return res;

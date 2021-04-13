@@ -14,14 +14,15 @@ export interface AccountDocument {
   clientId: string;
   deletedAt?: Date;
   createdAt?: Date;
-  transactions?: string[];
+  transactions?: any;
 }
 
 /**
  * Repository interface.
  */
-export interface IAccountRepository extends IRepository<Account> {
-  getByIdIncludes(id: string, includes: any): Promise<Account | null>;
+export interface IAccountRepository extends IRepository<AccountDocument> {
+  getByIdIncludes(id: string, includes: any): Promise<AccountDocument | null>;
+  getAverage(id: string): Promise<number | null>;
 }
 
 /**
@@ -31,13 +32,17 @@ export interface IAccountRepository extends IRepository<Account> {
  */
 @injectable()
 export default class AccountRepository implements IAccountRepository {
-  public async getById(id: string): Promise<Account | null> {
+  public async getAverage(id: string): Promise<number | null> {
+    const res = await Account.findByPk(id, {include: Transaction});
+    return res?res.getAverage():null;
+  }
+  public async getById(id: string): Promise<AccountDocument | null> {
     const res = await Account.findByPk(id);
-    return res;
+    return res?res.get({plain: true}):null;
   }
 
-  public async getByIdIncludes(id: string, includes: any): Promise<Account | null> {
+  public async getByIdIncludes(id: string, includes: any): Promise<AccountDocument | null> {
     const res = await Account.findByPk(id, {include: includes});
-    return res;
+    return res?res.get({plain:true}):null;
   }
 }

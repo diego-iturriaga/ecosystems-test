@@ -1,4 +1,5 @@
 import { inject, injectable } from "inversify";
+import TransactionDetail from "../models/transaction.detail";
 import Account from "../models/account";
 import Client from "../models/client";
 import Transaction from "../models/transaction";
@@ -13,11 +14,12 @@ import { TYPES } from '../types';
  * Interface for UserService
  */
 export interface IRepoService {
-  addProductToClient(clientId: string, productId: string): Promise<void>;
+  getUserByUsername(username: string): Promise<UserDocument | null>;
+  addProductToClient(clientId: string, productId: string): Promise<boolean>;
   getAccounts(userId: string): Promise<AccountDocument[] | null>;
   getTransactions(accountId: string): Promise<TransactionDocument[] | null>;
   getTransactionDetail(transactionId: string): Promise<TransactionDetailDocument | null>;
-  getUserAccountSumAverageTransactions(accountId: string): Promise<number>;
+  getUserAccountSumAverageTransactions(accountId: string): Promise<number | null>;
 }
 
 /**
@@ -32,6 +34,10 @@ export default class RepoService implements IRepoService {
   @inject(TYPES.TransactionDetailRepository) private transactionDetailRepository: ITransactionDetailRepository;
   @inject(TYPES.TransactionRepository) private transactionRepository: ITransactionRepository;
 
+  public async getUserByUsername(username: string): Promise<UserDocument | null> {
+    return this.userRepository.getUserByUsername(username);
+  }
+
   public async getAccounts(userId: string): Promise<AccountDocument[] | null> {
     const resUser = await this.userRepository.getById(userId);
     if(!resUser){
@@ -40,38 +46,26 @@ export default class RepoService implements IRepoService {
     const resClient = await this.clientRepository.getByIdIncludes(resUser.clientId, [Account]);
     if(!resClient)
       return null;
-    const res: AccountDocument[] = []
-    for (const element of resClient.accounts){
-      const resAccount = await this.accountRepository.getById(element.id);
-      if(resAccount)
-        res.push(resAccount.get({plain: true}));
-    }
-  return res;
+    return resClient.accounts;
   }
   public async getTransactions(accountId: string): Promise<TransactionDocument[] | null> {
-    const resAccount = await this.accountRepository.getById(accountId);
-    if (!resAccount || !resAccount.transactions)
+    const resAccount = await this.accountRepository.getByIdIncludes(accountId, [Transaction]);
+    if (!resAccount)
       return null;
-    let res: TransactionDocument[] = [];
-    for(const element of resAccount.transactions){
-      const tr = await this.transactionRepository.getById(element.id);
-      if (tr)
-        res.push(tr.get({plain: true}));
-    }
-    
-    return res;
+    return resAccount.transactions;
   }
   public async getTransactionDetail(transactionId: string): Promise<TransactionDetailDocument | null> {
-    const resTrans = await this.transactionRepository.getById(transactionId);
+    const resTrans = await this.transactionRepository.getByIdIncludes(transactionId, [TransactionDetail]);
     if(!resTrans)
       return null;
-    const resDetail = await this.transactionDetailRepository.getById(resTrans.detailId);
-    return resDetail? resDetail : null;
+    return resTrans.detail;
   }
-  public async getUserAccountSumAverageTransactions(accountId: string): Promise<number> {
-    throw new Error("Method not implemented.");
+  public async getUserAccountSumAverageTransactions(accountId: string): Promise<number | null> {
+    const res = await this.accountRepository.getAverage(accountId);
+    return res;
   }
-  public async addProductToClient(clientId: string, productId: string): Promise<void> {
-    throw new Error("Method not implemented.");
+  public async addProductToClient(clientId: string, productId: string): Promise<boolean> {
+    const res = await this.clientRepository.addProduct(clientId, productId);
+    return res;
   }  
 }

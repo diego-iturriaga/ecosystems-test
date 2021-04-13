@@ -1,7 +1,7 @@
 import { injectable } from 'inversify';
+import Product from '../models/product';
 import Client from '../models/client';
 import { IRepository } from './repository';
-import Account from '../models/account';
 
 /**
  * The schema definition. In other word,
@@ -13,7 +13,7 @@ export interface ClientDocument {
   address1: string;
   address2: string;
   identification: string;
-  accounts: [];
+  accounts: any;
   deletedAt?: Date;
   createdAt?: Date;
 }
@@ -21,8 +21,9 @@ export interface ClientDocument {
 /**
  * Repository interface.
  */
-export interface IClientRepository extends IRepository<Client> {
-  getByIdIncludes(id: string, includes: any): Promise<Client | null>;
+export interface IClientRepository extends IRepository<ClientDocument> {
+  addProduct(clientId: string, productId: string): Promise<boolean>;
+  getByIdIncludes(id: string, includes: any): Promise<ClientDocument | null>;
 }
 
 /**
@@ -32,14 +33,22 @@ export interface IClientRepository extends IRepository<Client> {
  */
 @injectable()
 export default class ClientRepository implements IClientRepository {
-  constructor() {
+  public async addProduct(clientId: string, productId: string): Promise<boolean> {
+    var cl = await Client.findByPk(clientId);
+    var pr = await Product.findByPk(productId);
+    if(cl && pr){
+      cl.products.push(pr);
+      cl.save();
+      return true;
+    }
+    return false;
   }
-  public async getById(id: string): Promise<Client | null> {
+  public async getById(id: string): Promise<ClientDocument | null> {
     const res = await Client.findOne({where: {id}});
-    return res;
+    return res?res.get({plain:true}):null;
   }
-  public async getByIdIncludes(id: string, includes: any): Promise<Client | null> {
+  public async getByIdIncludes(id: string, includes: any): Promise<ClientDocument | null> {
     const res = await Client.findByPk(id, {include: includes});
-    return res;
+    return res?res.get({plain: true}):null;
   }
 }

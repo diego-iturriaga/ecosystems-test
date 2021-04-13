@@ -23,6 +23,16 @@ class Account extends Model {
 
   @HasMany(() => Transaction)
   transactions: Transaction[];
+
+  public getAverage(): number{
+    let counter = 0;
+    var summatory: number = 0;
+    for(const element of this.transactions){
+      counter++;
+      summatory = Number(summatory) + Number(element.amount);
+    }
+    return counter>0? summatory/counter : 0;
+  }
 }
 
 export default Account;

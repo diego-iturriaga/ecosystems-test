@@ -1,11 +1,7 @@
 import jwt from "jsonwebtoken";
-import User from "../models/user";
+import { UserDocument } from "../repositories/user.repository";
 import config from "../config/config";
 
-class TokenCreator {
-    createToken(user:User): string{
-        return jwt.sign({id: user.id, username:user.username}, config.jwtSecret, {expiresIn: 86400});
-    }
+export function createToken(user:UserDocument): string{
+    return jwt.sign({id: user.id, username:user.username}, config.jwtSecret, {expiresIn: 86400});
 }
-
-export default TokenCreator;

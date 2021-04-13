@@ -4,11 +4,9 @@ import express, { Router } from "express";
 import passport from "passport";
 import { Sequelize } from 'sequelize-typescript';
 import config from "./config/config";
-import UserLoginController from "./controllers/user-login";
+import errorHandler from "./errors/error.handler";
 import passportMiddleware from "./middlewares/passport";
-import loginRouter from "./routes/login.router";
 import userRouter from "./routes/user.router";
-import TokenCreator from "./utils/token.creator";
 
 class Server{
     // Express initialization.
@@ -51,13 +49,9 @@ class Server{
 
     start(): void{
         // Route creations.
-        const router: Router = express.Router();
-        loginRouter(this.app, 
-            new UserLoginController(), 
-            new TokenCreator());
 
         userRouter(this.app);
-
+        errorHandler(this.app);
         // first level routing
         //this.app.use(`/${config.apiPrefix}/${config.apiVersion}`, router);
 

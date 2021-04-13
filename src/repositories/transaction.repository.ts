@@ -9,7 +9,7 @@ import { IRepository } from './repository';
 export interface TransactionDocument {
   id: string;
   amount: number;
-  detailId: string;
+  detail: any;
   currency: string;
   transactionDetailId: string;
   accountId: string;
@@ -21,6 +21,7 @@ export interface TransactionDocument {
  * Repository interface.
  */
 export interface ITransactionRepository extends IRepository<TransactionDocument> {
+  getByIdIncludes(id: string, includes: any): Promise<TransactionDocument | null>;
 }
 
 /**
@@ -30,9 +31,12 @@ export interface ITransactionRepository extends IRepository<TransactionDocument>
  */
 @injectable()
 export default class TransactionRepository implements ITransactionRepository {
-  constructor() {
-  }
   public async getById(id: string): Promise<TransactionDocument | null> {
-    throw new Error('Method not implemented.');
+    const res = await Transaction.findOne({where: {id}});
+    return res?res.get({plain:true}):null;
+  }
+  public async getByIdIncludes(id: string, includes: any): Promise<TransactionDocument | null> {
+    const res = await Transaction.findByPk(id, {include: includes});
+    return res?res.get({plain: true}):null;
   }
 }

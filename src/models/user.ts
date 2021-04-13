@@ -24,11 +24,6 @@ class User extends Model {
   @BelongsTo(() => Client, {foreignKey: 'clientId', targetKey: 'id'})
   client: Client;
 
-  validatePassword(password: string): boolean{
-    const cr: Crypto = new Crypto();
-    return cr.validPassword(password, this.password);
-  }
-
   @BeforeCreate
   static createHashPassword(instance: User){
     const cr: Crypto = new Crypto();
