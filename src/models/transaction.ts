@@ -12,19 +12,19 @@ class Transaction extends Model {
   @Column(DataType.TEXT)
   amount: number;
 
-  @ForeignKey(() => TransactionDetail)
-  @Column(DataType.NUMBER)
-  detailId: string;
-  
-  @BelongsTo(() => TransactionDetail, {foreignKey: 'detailId', targetKey: 'id'})
-  detail: TransactionDetail;
-
   @Column(DataType.TEXT)
   currency: string;
 
   @ForeignKey(() => Account)
   @Column(DataType.UUID)
   accountId: string;
+
+  @ForeignKey(() => TransactionDetail)
+  @Column(DataType.NUMBER)
+  detailId: string;
+  
+  @BelongsTo(() => TransactionDetail, {foreignKey: 'detailId', targetKey: 'id'})
+  detail: TransactionDetail;
 
 }
 
