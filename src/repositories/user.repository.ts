@@ -21,8 +21,6 @@ export interface UserDocument {
  */
 export interface IUserRepository extends IRepository<UserDocument> {
   getUserByUsername(username: string): Promise<UserDocument | null>;
-  isUsernameExists(username: string): Promise<boolean>;
-  isEmailExists(username: string): Promise<boolean>;
 }
 
 /**
@@ -41,12 +39,5 @@ export default class UserRepository implements IUserRepository {
       return res;
     });
     return res;
-  }
-  public async isUsernameExists(username: string): Promise<boolean> {
-    return false;
-  }
-
-  public async isEmailExists(email: string): Promise<boolean> {
-    return false;
   }
 }
