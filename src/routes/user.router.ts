@@ -1,8 +1,7 @@
-import { Application, Router } from "express";
-import container from "../inversify";
+import { Router } from "express";
 import UserController from "../controllers/user.controller";
+import container from "../inversify";
 import asyncWrap from "../utils/asyncwrap";
-import config from "../config/config";
 
 export default class UserRoutes {
     public router: Router;
