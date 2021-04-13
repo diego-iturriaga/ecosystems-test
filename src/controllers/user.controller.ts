@@ -35,7 +35,7 @@ class UserController{
     }
     
     public async getUserAccounts(req: Request, res: Response) {
-        if (!req.params.id) {
+        if (!req.params.userId) {
           throw new MissingFieldError('userId');
         }
         const userId = req.params.userId;
@@ -47,10 +47,10 @@ class UserController{
     }
 
     public async getUserAccountTransactions(req: Request, res: Response): Promise<void> {
-        if (!req.params.id) {
+        if (!req.params.userId) {
             throw new MissingFieldError('userId');
         }
-        if (!req.params.id) {
+        if (!req.params.accountId) {
             throw new MissingFieldError('accountId');
         }
         const userId = req.params.userId;

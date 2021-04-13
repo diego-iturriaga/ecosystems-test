@@ -1,12 +1,12 @@
 import compression from "compression";
 import cors from "cors";
-import express, { Router } from "express";
+import express from "express";
 import passport from "passport";
 import { Sequelize } from 'sequelize-typescript';
 import config from "./config/config";
 import errorHandler from "./errors/error.handler";
 import passportMiddleware from "./middlewares/passport";
-import userRouter from "./routes/user.router";
+import UserRoutes from "./routes/user.router";
 
 class Server{
     // Express initialization.
@@ -45,16 +45,20 @@ class Server{
         this.app.use(cors());
         this.app.use(passport.initialize());
         passport.use(passportMiddleware);
+
+        // Route creations.
+        const routes = new UserRoutes();
+        this.app.use(`/${config.apiPrefix}/${config.apiVersion}`, 
+            routes.router);
+        
+        this.app.use(`/${config.apiPrefix}/${config.apiVersion}`, 
+            passport.authenticate('jwt', {session: false}), 
+            routes.routerSecure);
+        
+        errorHandler(this.app);
     }
 
     start(): void{
-        // Route creations.
-
-        userRouter(this.app);
-        errorHandler(this.app);
-        // first level routing
-        //this.app.use(`/${config.apiPrefix}/${config.apiVersion}`, router);
-
         // Run server!
         this.app.listen(config.port, () => {
             // tslint:disable-next-line:no-console

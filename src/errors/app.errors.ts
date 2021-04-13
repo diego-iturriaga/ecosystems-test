@@ -35,7 +35,7 @@ export class NotFoundError extends ApplicationError {
 
 export class MissingFieldError extends BadRequestError {
   constructor(fieldName: string, ...args: any) {
-    super(`${fieldName} is required`, args);
+    super(JSON.stringify({'error': `${fieldName} is required`}), args);
   }
 }
 

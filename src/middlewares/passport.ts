@@ -1,6 +1,5 @@
 import { ExtractJwt, Strategy, StrategyOptions, VerifyCallbackWithRequest } from "passport-jwt";
 import config from "../config/config";
-import User from "../models/user";
 
 const opts: StrategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -12,14 +11,9 @@ export default new Strategy(opts, (...[req, token, done]: Parameters<VerifyCallb
     if (!token){
         return done(null, false);
     }
-
-    if (parseInt(req.url.split('/')[1]) !== token.id) {
-        return done(new Error("Unauthorized"));
-    }
-    User.findByPk(token.id).then(usr => {
-        if(usr){
-            return done(null, usr);
-        }
-        return done(null, false);
-    });
+    try {
+        return done(null, token.id);
+      } catch (error) {
+        done(error);
+      }  
 })
