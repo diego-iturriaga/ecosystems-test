@@ -1,6 +1,7 @@
 import { injectable } from 'inversify';
 import Client from '../models/client';
 import { IRepository } from './repository';
+import Account from '../models/account';
 
 /**
  * The schema definition. In other word,
@@ -8,10 +9,11 @@ import { IRepository } from './repository';
  */
 export interface ClientDocument {
   id: string;
-  name?: string;
-  address1?: string;
-  address2?: string;
+  name: string;
+  address1: string;
+  address2: string;
   identification: string;
+  accounts: [];
   deletedAt?: Date;
   createdAt?: Date;
 }
@@ -19,7 +21,8 @@ export interface ClientDocument {
 /**
  * Repository interface.
  */
-export interface IClientRepository extends IRepository<ClientDocument> {
+export interface IClientRepository extends IRepository<Client> {
+  getByIdIncludes(id: string, includes: any): Promise<Client | null>;
 }
 
 /**
@@ -31,10 +34,12 @@ export interface IClientRepository extends IRepository<ClientDocument> {
 export default class ClientRepository implements IClientRepository {
   constructor() {
   }
-  public async getById(id: string): Promise<ClientDocument | null> {
-    const res = await Client.findByPk(id, {raw: true}).then(res=>{
-      return res;
-    });
+  public async getById(id: string): Promise<Client | null> {
+    const res = await Client.findOne({where: {id}});
+    return res;
+  }
+  public async getByIdIncludes(id: string, includes: any): Promise<Client | null> {
+    const res = await Client.findByPk(id, {include: includes});
     return res;
   }
 }

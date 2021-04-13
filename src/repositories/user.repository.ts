@@ -31,8 +31,7 @@ export interface IUserRepository extends IRepository<UserDocument> {
  */
 @injectable()
 export default class UserRepository implements IUserRepository {
-
-  public async getById(id: string): Promise<UserDocument| null> {
+  public async getById(id: string): Promise<UserDocument | null> {
     const res = await User.findByPk(id, {raw: true}).then(res=>{
       return res;
     });

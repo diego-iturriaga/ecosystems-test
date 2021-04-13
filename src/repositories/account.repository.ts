@@ -1,4 +1,5 @@
 import { injectable } from 'inversify';
+import Transaction from '../models/transaction';
 import Account from '../models/account';
 import { IRepository } from './repository';
 
@@ -13,13 +14,14 @@ export interface AccountDocument {
   clientId: string;
   deletedAt?: Date;
   createdAt?: Date;
+  transactions?: string[];
 }
 
 /**
  * Repository interface.
  */
-export interface IAccountRepository extends IRepository<AccountDocument> {
-  getAccountsByClientId(clientId: string): Promise<AccountDocument[] | void>
+export interface IAccountRepository extends IRepository<Account> {
+  getByIdIncludes(id: string, includes: any): Promise<Account | null>;
 }
 
 /**
@@ -29,14 +31,13 @@ export interface IAccountRepository extends IRepository<AccountDocument> {
  */
 @injectable()
 export default class AccountRepository implements IAccountRepository {
-  constructor() {
+  public async getById(id: string): Promise<Account | null> {
+    const res = await Account.findByPk(id);
+    return res;
   }
-  public async getAccountsByClientId(clientId: string): Promise<AccountDocument[]> {
-    const res = await Account.findAll({where: {clientId: clientId}, raw: true});
-    return res? res : [];
-  }
-  public async getById(id: string): Promise<AccountDocument | null> {
-    const res = await Account.findByPk(id, {raw: true});
-    return res?.get({plain: true});
+
+  public async getByIdIncludes(id: string, includes: any): Promise<Account | null> {
+    const res = await Account.findByPk(id, {include: includes});
+    return res;
   }
 }

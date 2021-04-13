@@ -9,7 +9,6 @@ import passportMiddleware from "./middlewares/passport";
 import loginRouter from "./routes/login.router";
 import userRouter from "./routes/user.router";
 import TokenCreator from "./utils/token.creator";
-import container from "./inversify";
 
 class Server{
     // Express initialization.

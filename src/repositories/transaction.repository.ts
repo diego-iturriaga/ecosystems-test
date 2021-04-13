@@ -1,4 +1,5 @@
 import { injectable } from 'inversify';
+import Transaction from '../models/transaction';
 import { IRepository } from './repository';
 
 /**
@@ -10,6 +11,7 @@ export interface TransactionDocument {
   amount: number;
   detailId: string;
   currency: string;
+  transactionDetailId: string;
   accountId: string;
   deletedAt?: Date;
   createdAt?: Date;
