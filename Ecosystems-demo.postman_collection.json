@@ -9,7 +9,7 @@
 			"name": "1",
 			"item": [
 				{
-					"name": "http://localhost:8000/api/v1/login User 1",
+					"name": "Login - Usuario 826682",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -45,82 +45,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "http://localhost:8000/api/v1/login User 2",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJkaXR1IiwiaWF0IjoxNjE3Njc2NDQxLCJleHAiOjE2MTc3NjI4NDF9.tcFRgQ3Y_ARuTPsvp-IpWZCCK6rwnt17Uu9bhC-XzNI",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"username\": \"123456\", \n    \"password\": \"123456\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8000/api/v1/login/",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"v1",
-								"login",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "http://localhost:8000/api/v1/login User 3",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJkaXR1IiwiaWF0IjoxNjE3Njc2NDQxLCJleHAiOjE2MTc3NjI4NDF9.tcFRgQ3Y_ARuTPsvp-IpWZCCK6rwnt17Uu9bhC-XzNI",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"username\": \"654321\", \n    \"password\": \"123456\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8000/api/v1/login/",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"v1",
-								"login",
-								""
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -128,7 +52,7 @@
 			"name": "2",
 			"item": [
 				{
-					"name": "http://localhost:8000/api/v1/user/1/account/",
+					"name": "GetAccounts - Usuario 826682",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -137,7 +61,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3NzIzNjQzLCJleHAiOjE2MTc4MTAwNDN9.iCVrUA8a6C9OdSs-HdME2zpi6y3E0XMkBq2wmaxwyFQ",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3ODMzMTA3LCJleHAiOjE2MTc5MTk1MDd9.kfnt1drPsc-YQTKNLTvbhvMyl62TWkHAKHgQ1PrpzOE",
 								"type": "text"
 							}
 						],
@@ -151,101 +75,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/v1/user/1/account/",
+							"raw": "http://localhost:8000/user/fb8d1786-898b-48cf-ab18-ad6433002e50/account/",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8000",
 							"path": [
-								"api",
-								"v1",
 								"user",
-								"1",
-								"account",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "http://localhost:8000/api/v1/user/2/account/",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3NzIzNjQzLCJleHAiOjE2MTc4MTAwNDN9.iCVrUA8a6C9OdSs-HdME2zpi6y3E0XMkBq2wmaxwyFQ",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8000/api/v1/user/2/account/",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"v1",
-								"user",
-								"2",
-								"account",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "http://localhost:8000/api/v1/user/3/account/",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3NzIzNjQzLCJleHAiOjE2MTc4MTAwNDN9.iCVrUA8a6C9OdSs-HdME2zpi6y3E0XMkBq2wmaxwyFQ",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8000/api/v1/user/3/account/",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"v1",
-								"user",
-								"3",
+								"fb8d1786-898b-48cf-ab18-ad6433002e50",
 								"account",
 								""
 							]
@@ -259,7 +97,7 @@
 			"name": "3",
 			"item": [
 				{
-					"name": "http://localhost:8000/api/v1/:userId/account/:accountId/transaction/",
+					"name": "GetTransactions - Usuario 826682",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -268,7 +106,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3NzIzNjQzLCJleHAiOjE2MTc4MTAwNDN9.iCVrUA8a6C9OdSs-HdME2zpi6y3E0XMkBq2wmaxwyFQ",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3ODI0NjYxLCJleHAiOjE2MTc5MTEwNjF9._dRA1dO0BIhhFlZ8UJ3D2SH9IHVegWCYE3Ol46yOfxM",
 								"type": "text"
 							}
 						],
@@ -282,15 +120,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/v1/user/:userId/account/:accountId/transaction/",
+							"raw": "http://localhost:8000/user/:userId/account/:accountId/transaction/",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8000",
 							"path": [
-								"api",
-								"v1",
 								"user",
 								":userId",
 								"account",
@@ -301,11 +137,11 @@
 							"variable": [
 								{
 									"key": "userId",
-									"value": "1"
+									"value": "fb8d1786-898b-48cf-ab18-ad6433002e50"
 								},
 								{
 									"key": "accountId",
-									"value": "4"
+									"value": "d5a101f3-bcd5-468f-9879-4f967e1eec73"
 								}
 							]
 						}
@@ -318,7 +154,7 @@
 			"name": "4",
 			"item": [
 				{
-					"name": "http://localhost:8000/api/v1/user/:id/account/:id/transaction/:id/detail/",
+					"name": "GetTransactionDetail - Usuario 826682",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -327,7 +163,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3NzIzNjQzLCJleHAiOjE2MTc4MTAwNDN9.iCVrUA8a6C9OdSs-HdME2zpi6y3E0XMkBq2wmaxwyFQ",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3ODI0NjYxLCJleHAiOjE2MTc5MTEwNjF9._dRA1dO0BIhhFlZ8UJ3D2SH9IHVegWCYE3Ol46yOfxM",
 								"type": "text"
 							}
 						],
@@ -341,15 +177,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/v1/user/:userId/account/:accountId/transaction/:transactionId/detail/",
+							"raw": "http://localhost:8000/user/:userId/account/:accountId/transaction/:transactionId/detail/",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8000",
 							"path": [
-								"api",
-								"v1",
 								"user",
 								":userId",
 								"account",
@@ -362,15 +196,15 @@
 							"variable": [
 								{
 									"key": "userId",
-									"value": "1"
+									"value": "fb8d1786-898b-48cf-ab18-ad6433002e50"
 								},
 								{
 									"key": "accountId",
-									"value": "1"
+									"value": "d5a101f3-bcd5-468f-9879-4f967e1eec73"
 								},
 								{
 									"key": "transactionId",
-									"value": "2"
+									"value": "0ed66337-a9f3-403f-8d28-1c62f110150d"
 								}
 							]
 						}
@@ -383,7 +217,7 @@
 			"name": "5",
 			"item": [
 				{
-					"name": "Promedio de transacciones de una cuenta",
+					"name": "GetSumAverageTransactions - Usuario 826682",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -392,7 +226,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3ODE4ODgzLCJleHAiOjE2MTc5MDUyODN9.FWhex-syk9lHSWENMf2oEMJW9aq6srCYUedfUWr6hsk",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3ODIyMjcyLCJleHAiOjE2MTc5MDg2NzJ9.OjYPdwWfCIRtYYN8Sn5-cOaQI0MxxJWa7Yz38TXkb1k",
 								"type": "text"
 							}
 						],
@@ -406,15 +240,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/v1/user/:userId/account/:accountId/sum-average-transaction/:startdate/:enddate",
+							"raw": "http://localhost:8000/user/:userId/account/:accountId/sum-average-transaction/:startdate/:enddate",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8000",
 							"path": [
-								"api",
-								"v1",
 								"user",
 								":userId",
 								"account",
@@ -426,11 +258,11 @@
 							"variable": [
 								{
 									"key": "userId",
-									"value": "1"
+									"value": "fb8d1786-898b-48cf-ab18-ad6433002e50"
 								},
 								{
 									"key": "accountId",
-									"value": "1"
+									"value": "d5a101f3-bcd5-468f-9879-4f967e1eec73"
 								},
 								{
 									"key": "startdate",
@@ -451,7 +283,7 @@
 			"name": "6",
 			"item": [
 				{
-					"name": "Agregar producto a cliente",
+					"name": "AddNewProductToClient",
 					"request": {
 						"method": "PATCH",
 						"header": [
@@ -493,7 +325,7 @@
 								},
 								{
 									"key": "productId",
-									"value": "1"
+									"value": "4"
 								}
 							]
 						}
