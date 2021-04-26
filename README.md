@@ -1,5 +1,6 @@
 # ecosystems-test
 Typescript REST API
+Generic Repository pattern + JWT + Sequelize + Express
 
 run server:
 ```sh
